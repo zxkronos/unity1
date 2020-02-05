@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class Player : Character
 {
-    
-    
-    
-    
+
+    private static Player instance;
+
+    public static Player MyInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Player>();
+            }
+
+            return instance;
+        }
+    }
+
+
     // Start is called before the first frame update
     protected override void Start() {
         base.Start();
@@ -126,23 +139,15 @@ public class Player : Character
 
     }
 
-   /* public IEnumerator Attack()
+    public void MoverArriba( Vector2 dir)
     {
-        
-            isAttacking = true;
-            animator.SetBool("attack", isAttacking);
-            yield return new WaitForSeconds(1); //cast time
-            //Debug.Log("Cast done");
-            
-            StopAttack();
-            Fire();
-        //CastSpell();
-
-        StopAttack(); //Ends the attack
-    }*/
-
-   /* public void CastSpell()
-    {
-        Instantiate(spellPrefab[0], transform.position, Quaternion.identity);
-    }*/
+        // exit
+        Debug.Log(direction);
+        Direction = dir;
+        for (int i = 0; i < 20; i++)
+        {
+            transform.Translate(Direction * speed * Time.deltaTime);
+        }
+        Debug.Log("mover arriba");
+    }
 }

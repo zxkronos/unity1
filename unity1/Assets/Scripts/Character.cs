@@ -6,7 +6,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField]
-    private float speed;
+    protected float speed;
     protected Vector2 direction;
     protected Animator animator;
    
@@ -26,11 +26,22 @@ public class Character : MonoBehaviour
     public float velX = 5f;
     public float velY = 5f;
     private Rigidbody2D myRigidbody;
-    
 
-   // protected bool isAttacking = false;
+    public Vector2 Direction
+    {
+        get
+        {
+            return direction;
+        }
 
-  //  protected Coroutine attackRoutine;
+        set
+        {
+            direction = value;
+        }
+    }
+    // protected bool isAttacking = false;
+
+    //  protected Coroutine attackRoutine;
     // Start is called before the first frame update
     protected virtual void Start()
     {
