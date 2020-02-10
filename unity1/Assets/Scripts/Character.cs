@@ -23,8 +23,8 @@ public class Character : MonoBehaviour
 
    // public Transform barrel;
    // public Rigidbody2D bullet;
-    public float velX = 5f;
-    public float velY = 5f;
+    protected float velX = 5f;
+    protected float velY = 5f;
     private Rigidbody2D myRigidbody;
 
     public Vector2 Direction

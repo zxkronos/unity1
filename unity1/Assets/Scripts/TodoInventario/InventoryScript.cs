@@ -285,7 +285,7 @@ public class InventoryScript : MonoBehaviour
         return false;
     }
 
-    private void AgregarItem(Bag bag, Item item)
+    private void AgregarItem(Bag bag, Item item) //agrega item en el lugar en la bolsa correspondiente
     {
         bag.MyBagScript.AddItem(item); //Tries to add the item
             
