@@ -24,8 +24,8 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// A reference to all the action buttons
     /// </summary>
-    [SerializeField]
-    private ActionButton[] actionButtons;
+    //[SerializeField]
+    //private ActionButton[] actionButtons;
 
     [SerializeField]
     private CanvasGroup[] menus;
@@ -184,10 +184,11 @@ public class UIManager : MonoBehaviour
         tmp.text = code.ToString();
     }
 
-    public void ClickActionButton(string buttonName)
+   /* public void ClickActionButton(string buttonName)
     {
         Array.Find(actionButtons, x => x.gameObject.name == buttonName).MyButton.onClick.Invoke();
     }
+    */
 
     public void OpenClose(CanvasGroup canvasGroup)
     {

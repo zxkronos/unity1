@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a9770d96b855fe4a81ac95e2b685896, type: 3}
+  m_Name: Linea
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  stackSize: 0
+  titel: 
+  quality: 0
+  price: 0
+  acts: 0
+  lineaPrefab: {fileID: 4525787752127247852, guid: fe76a487392036b449ea169bcf442358,
+    type: 3}
