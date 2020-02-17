@@ -11,6 +11,9 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     /// </summary>
     public IUseable MyUseable { get; set; }
 
+
+
+
     [SerializeField]
     private Text stackSize;
 
@@ -122,7 +125,25 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         {
             if (HandScript.MyInstance.MyMoveable != null && HandScript.MyInstance.MyMoveable is IUseable)
             {
+                //items.Add((Item)HandScript.MyInstance.MyMoveable);
+                if (HandScript.MyInstance.MyMoveable is CmdMover)
+                {
+                    CmdMover mov = (CmdMover)HandScript.MyInstance.MyMoveable;
+                    //Debug.Log(mov.MyTitle);
+                    
+                    if(mov.MyTitle.Equals("ComandosMov"))
+                    {
+                        EditorScript.MyInstance.AgregarLinea();
+                    }else if (mov.MyTitle.Equals("Mover"))
+                    {
+                        EditorScript.MyInstance.AgregarAct();
+                    }
+                }
+
                 SetUseable(HandScript.MyInstance.MyMoveable as IUseable);
+                
+                    
+
             }
             else if (HandScript.MyInstance.MyMoveable == null)
             {
