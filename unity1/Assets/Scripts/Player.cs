@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Player : Character
 {
@@ -38,6 +39,16 @@ public class Player : Character
         base.Update();
     }
     
+    public void moverAdelante()
+    {
+        if (pasos == dist)
+        {
+            //direction = Vector2.up;
+            mover = true;
+            caminarAdelante = true;
+            pasos = 0;
+        }
+    }
 
     private void GetInput() {
         if (Input.GetKeyDown(KeyCode.W))

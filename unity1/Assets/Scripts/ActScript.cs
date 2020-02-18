@@ -130,14 +130,17 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                 {
                     CmdMover mov = (CmdMover)HandScript.MyInstance.MyMoveable;
                     //Debug.Log(mov.MyTitle);
-                    
-                    if(mov.MyTitle.Equals("ComandosMov"))
+
+                    EditorScript.MyInstance.AgregarLinea();
+
+                /*    if (mov.MyTitle.Equals("ComandosMov"))
                     {
                         EditorScript.MyInstance.AgregarLinea();
-                    }else if (mov.MyTitle.Equals("Mover"))
+                    }
+                    else if (mov.MyTitle.Equals("Mover"))
                     {
                         EditorScript.MyInstance.AgregarAct();
-                    }
+                    }*/
                 }
 
                 SetUseable(HandScript.MyInstance.MyMoveable as IUseable);

@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum MoveType { Movimiento, MoverAdelante, GirarDerecha, GirarIzquierda }
+public enum MoveType { Movimiento, MoverAdelante, GirarDerecha, GirarIzquierda }
 
 [CreateAssetMenu(fileName = "Mover", menuName = "Items/Mover", order = 2)]
 public class CmdMover : Item, IUseable
 {
 
     [SerializeField]
-    private MoveType moveType;
+    public MoveType moveType;
 
     [SerializeField]
     private int cantidadPasos;
+
+    //internal MoveType MoveType { get => moveType; set => moveType = value; }
 
     public override string GetDescription()
     {
