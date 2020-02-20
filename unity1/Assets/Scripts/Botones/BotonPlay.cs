@@ -4,50 +4,63 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Unity.Jobs;
 using Unity.Collections;
+using System.Threading;
 
 public class BotonPlay : MonoBehaviour
 {
     private List<Item> items = new List<Item>();
     
+    public Thread _t1;
+    public Thread _t2;
+    public bool _t1Paused = false;
+    public bool _t2Paused = false;
 
+    public float timeWaiting = 5.0f;
+
+    public void _func1()
+    {
+        
+        while (true)
+        {
+            
+
+            for (int i = 0; i < timeWaiting; i++)
+            {
+                Debug.Log("for");
+                //_t1Paused = true;
+            }
+            Thread.Sleep(10000000);
+            
+            while (_t1Paused)
+            {
+               // Debug.Log("pausada");
+            
+            }
+        }
+    }
+
+    void Start()
+    {
+        _t1 = new Thread(_func1);
+       
+    }
 
     public void Play()
     {
-        Debug.Log("in");
-        NativeArray<float> result = new NativeArray<float>(1, Allocator.TempJob);
-        MyJob jobData = new MyJob();
-        jobData.a = 10;
-        jobData.b = 10;
-        jobData.result = result;
-        Debug.Log(result);
-        // Schedule the job
-        JobHandle handle = jobData.Schedule();
+        Debug.Log("estado "+_t1.ThreadState);
 
-        // Wait for the job to complete
-        handle.Complete();
-        // All copies of the NativeArray point to the same memory, you can access the result in "your" copy of the NativeArray
-        float aPlusB = result[0];
-
-        Debug.Log(aPlusB);
-        // Free the memory allocated by the result array
-        result.Dispose();
+        if (!_t1.IsAlive)
+            _t1.Start();
+        else
+            //_t1Paused = !_t1Paused;
 
         items = EditorScript.MyInstance.MyItems;
          UseItem();
+        Debug.Log("ol2");
 
     }
 
-    public struct MyJob : IJob
-    {
-        public float a;
-        public float b;
-        public NativeArray<float> result;
-
-        public void Execute()
-        {
-            result[0] = a + b;
-        }
-    }
+   
 
     public void UseItem()
     {
