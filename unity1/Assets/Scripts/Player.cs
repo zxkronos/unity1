@@ -7,6 +7,7 @@ public class Player : Character
 {
 
     private static Player instance;
+    public BotonPlay boton;
 
     public static Player MyInstance
     {
@@ -25,6 +26,7 @@ public class Player : Character
     // Start is called before the first frame update
     protected override void Start() {
         base.Start();
+        boton = BotonPlay.PlayInstance;
 
     }
 
@@ -44,9 +46,13 @@ public class Player : Character
         if (pasos == dist)
         {
             //direction = Vector2.up;
+            
             mover = true;
             caminarAdelante = true;
             pasos = 0;
+            Debug.Log("inmov");
+            boton._t1Paused = true;
+            Debug.Log("inmov2");
         }
     }
 

@@ -17,26 +17,61 @@ public class BotonPlay : MonoBehaviour
 
     public float timeWaiting = 5.0f;
 
+    private static BotonPlay instance;
+
+    public Player player;
+
+    public static BotonPlay PlayInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<BotonPlay>();
+            }
+
+            return instance;
+        }
+    }
+
+    void Awake()
+    {
+        player = Player.MyInstance;
+    }
+
     public void _func1()
     {
-        
-        while (true)
+        foreach (Item item in items)
         {
-            
+            Debug.Log("inforach");
+            if (item is CmdMover)
+            {
 
-            for (int i = 0; i < timeWaiting; i++)
-            {
-                Debug.Log("for");
-                //_t1Paused = true;
+                CmdMover mov = (CmdMover)item;
+
+                if (mov.moveType.ToString() == "MoverAdelante")
+                {
+                    Debug.Log("hola cmdmover " + item.MyTitle);
+
+                    _t1Paused = false;
+                    player.moverAdelante();
+                    Debug.Log("oli " + item.MyTitle);
+
+                    while (_t1Paused)
+                    {
+                        //Debug.Log("ca");
+
+                    }
+
+                }
+
             }
-            Thread.Sleep(10000000);
-            
-            while (_t1Paused)
-            {
-               // Debug.Log("pausada");
-            
-            }
+
         }
+
+
+        
+        
     }
 
     void Start()
@@ -47,16 +82,18 @@ public class BotonPlay : MonoBehaviour
 
     public void Play()
     {
-        Debug.Log("estado "+_t1.ThreadState);
+       
+
+        items = EditorScript.MyInstance.MyItems;
 
         if (!_t1.IsAlive)
             _t1.Start();
-        else
+        
             //_t1Paused = !_t1Paused;
 
-        items = EditorScript.MyInstance.MyItems;
-         UseItem();
-        Debug.Log("ol2");
+        
+        // UseItem();
+        
 
     }
 

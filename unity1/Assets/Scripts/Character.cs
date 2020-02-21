@@ -108,6 +108,7 @@ public class Character : MonoBehaviour
             else
             {
                 pasos = dist; //para que se detenga
+                BotonPlay.PlayInstance._t1Paused = false;
                 //Debug.Log("in");
             }
             if (direction.x != 0 || direction.y != 0) // si una de las dos direcciones no es 0 significa que se está moviendo
