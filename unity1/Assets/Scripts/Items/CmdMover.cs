@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MoveType { Movimiento, MoverAdelante, GirarDerecha, GirarIzquierda }
+public enum MoveType { Movimiento, MoverAdelante, GirarDerecha, GirarIzquierda, MoverAtras }
 
 [CreateAssetMenu(fileName = "Mover", menuName = "Items/Mover", order = 2)]
 public class CmdMover : Item, IUseable
@@ -29,8 +29,6 @@ public class CmdMover : Item, IUseable
     public void Use()
     {
         //Player.MyInstance.ExitIndex = 0;
-        Player.MyInstance.MoverArriba(Vector2.up) ;
-
-        Debug.Log("in use");
+        
     }
 }

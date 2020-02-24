@@ -106,20 +106,16 @@ public class InventoryScript : MonoBehaviour
     private void Awake()
     {
         Bag bag = (Bag)Instantiate(items[8]);
-        bag.Initialize(20);
+        bag.Initialize(4);
         
         bag.Use();
-        AddItem((Armor)Instantiate(items[0]));
-        AddItem((Armor)Instantiate(items[1]));
-        AddItem((Armor)Instantiate(items[2]));
-        AddItem((Armor)Instantiate(items[3]));
-        AddItem((Armor)Instantiate(items[4]));
-        AddItem((Armor)Instantiate(items[5]));
-        AddItem((Armor)Instantiate(items[6]));
-        AddItem((Armor)Instantiate(items[7]));
-        AddItem((Armor)Instantiate(items[10]));
+
+        
+        AddItem((CmdMover)Instantiate(items[14]));
+        AddItem((CmdMover)Instantiate(items[15]));
+        AddItem((CmdMover)Instantiate(items[16]));
         AddItem((CmdMover)Instantiate(items[12]));
-        AddItem((CmdMover)Instantiate(items[13]));
+
 
         Bag bag2 = (Bag)Instantiate(items[8]);
         bag2.Initialize(20);

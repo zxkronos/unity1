@@ -10,9 +10,13 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     /// A reference t o the useable on the actionbutton
     /// </summary>
     public IUseable MyUseable { get; set; }
+    public IUseable MiUsable { get; set; }
 
+    public int MyIndex { get; set; }
 
+    public static ActScript MyAct { get; set; }
 
+    public static ActScript act;
 
     [SerializeField]
     private Text stackSize;
@@ -78,6 +82,33 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         }
     }
 
+    
+
+    private void Awake()
+    {
+       // MyAct = new ActScript();
+        if (MyAct == null)
+        {
+            MyAct = FindObjectOfType<ActScript>(); //primer Act por defecto
+        }
+        EditorScript.MyInstance.acts.Add(MyAct);
+        MyIndex = 1;
+
+    }
+
+   /* public static ActScript MyInstanceAct
+    {
+        get
+        {
+            if (act == null)
+            {
+                act = FindObjectOfType<EditorScript>();
+            }
+
+            return act;
+        }
+    }
+    */
     [SerializeField]
     private Image icon;
 
@@ -91,10 +122,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     }
 
     // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 
     /// <summary>
     /// This is executed the the button is clicked
@@ -115,14 +143,32 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
     }
 
+
+    public void AddActClickDerecho(IUseable actUsable)
+    {
+        if (actUsable is CmdMover)
+        {
+            CmdMover mov = (CmdMover)actUsable;
+            //Debug.Log(mov.MyTitle);
+            MiUsable = actUsable;
+            EditorScript.MyInstance.AgregarLinea();
+            
+        }
+
+        SetUseable(actUsable);
+
+    }
+
     /// <summary>
     /// Checks if someone clicked on the actionbutton
     /// </summary>
     /// <param name="eventData"></param>
+    ///
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            //si handscript no es nulo tiene un item y es usable
             if (HandScript.MyInstance.MyMoveable != null && HandScript.MyInstance.MyMoveable is IUseable)
             {
                 //items.Add((Item)HandScript.MyInstance.MyMoveable);
@@ -198,7 +244,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
         if (count > 1)
         {
-            UIManager.MyInstance.UpdateStackSize(this);
+            //UIManager.MyInstance.UpdateStackSize(this);
         }
       /*  else if (MyUseable is Spell)
         {

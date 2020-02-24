@@ -53,7 +53,8 @@ public class HandScript : MonoBehaviour
         //Makes sure that the icon follows the hand
         icon.transform.position = Input.mousePosition+offset;
 
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject() && MyInstance.MyMoveable != null)
+        //getmousebutton 0 = click izq, 1 click derecho
+        if (Input.GetMouseButton(1) && !EventSystem.current.IsPointerOverGameObject() && MyInstance.MyMoveable != null)
         {
             DeleteItem();
         }
@@ -97,7 +98,8 @@ public class HandScript : MonoBehaviour
             Item item = (Item)MyMoveable;
             if (item.MySlot != null)
             {
-                item.MySlot.Clear();
+                InventoryScript.MyInstance.FromSlot.MyCover.enabled = false;
+                //item.MySlot.Clear();
             }
             else if (item.MyCharButton != null)
             {

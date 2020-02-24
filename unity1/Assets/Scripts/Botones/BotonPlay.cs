@@ -5,21 +5,26 @@ using UnityEngine.EventSystems;
 using Unity.Jobs;
 using Unity.Collections;
 using System.Threading;
+using UnityEngine.Experimental.UIElements;
 
 public class BotonPlay : MonoBehaviour
 {
     private List<Item> items = new List<Item>();
     
     public Thread _t1;
-    public Thread _t2;
+    public List<Thread> ListaDeHilos;
+    public int numHilos;
     public bool _t1Paused = false;
-    public bool _t2Paused = false;
+    public Vector3 posicionIncial;
+    public bool threadTerminado;
 
     public float timeWaiting = 5.0f;
 
     private static BotonPlay instance;
 
-    public Player player;
+    private UIManager ui;
+
+    private Player player;
 
     public static BotonPlay PlayInstance
     {
@@ -37,63 +42,120 @@ public class BotonPlay : MonoBehaviour
     void Awake()
     {
         player = Player.MyInstance;
+        ui = UIManager.MyInstance;
+        ListaDeHilos = new List<Thread>();
+        numHilos = 0;
+        posicionIncial = player.transform.position;
+        threadTerminado = true;
+       // botonplay = Transform.GetComponent<Button>(); 
+    }
+    void Start()
+    {
+        
+
     }
 
-    public void _func1()
+    public void Ejecutar()
     {
-        foreach (Item item in items)
+        
+        try
         {
-            Debug.Log("inforach");
-            if (item is CmdMover)
+            foreach (Item item in items)
             {
-
-                CmdMover mov = (CmdMover)item;
-
-                if (mov.moveType.ToString() == "MoverAdelante")
+                //Debug.Log("inforach");
+                if (item is CmdMover)
                 {
-                    Debug.Log("hola cmdmover " + item.MyTitle);
 
-                    _t1Paused = false;
-                    player.moverAdelante();
-                    Debug.Log("oli " + item.MyTitle);
+                    CmdMover mov = (CmdMover)item;
 
-                    while (_t1Paused)
+                    //Debug.Log(mov.moveType.ToString());
+                    if (mov.moveType.ToString() == "MoverAdelante")
                     {
-                        //Debug.Log("ca");
+                        //Debug.Log("hola cmdmover " + item.MyTitle);
 
+                        _t1Paused = false;
+                        player.moverAdelante();
+                        //Debug.Log("oli " + item.MyTitle);
+
+                        while (_t1Paused)
+                        {
+                        }
+
+                    }
+                    else if (mov.moveType.ToString() == "GirarDerecha")
+                    {
+                        //_t1Paused = true;
+                        player.GirarDerecha();
+                        //Debug.Log("oli " + item.MyTitle);
+                        Thread.Sleep(500);
+                       
+                    }
+                    else if (mov.moveType.ToString() == "GirarIzquierda")
+                    {
+                        //Debug.Log("in");
+                        //_t1Paused = true;
+                        player.GirarIzquierda();
+                        //Debug.Log("oli " + item.MyTitle);
+
+                        Thread.Sleep(500);
+                    }
+                    else if (mov.moveType.ToString() == "MoverAtras")
+                    {
+                        //Debug.Log("in");
+                        //_t1Paused = true;
+                        //player.MoverAtras();
+                        //Debug.Log("oli " + item.MyTitle);
+
+                        Thread.Sleep(500);
                     }
 
                 }
 
             }
-
+            Debug.Log("thread ejecutado correctamente");
+            threadTerminado = true;
+        }
+        catch (ThreadAbortException ex)
+        {
+            Debug.Log("Thread es abortado " + ex.ExceptionState);
         }
 
-
-        
-        
     }
-
-    void Start()
+   
+    public void posicionInicial()
     {
-        _t1 = new Thread(_func1);
-       
+        if (numHilos > 0) //detecta si se presiona el boton más de una vez
+        {
+            //vuelve a la posicion inicial
+            player.transform.position = posicionIncial;
+            player.direction = Vector2.down;
+            player.pasos = 0;
+        }
     }
 
     public void Play()
     {
-       
-
+        
         items = EditorScript.MyInstance.MyItems;
+        //Debug
 
-        if (!_t1.IsAlive)
-            _t1.Start();
-        
-            //_t1Paused = !_t1Paused;
+        //ui.setbotonplayEnable(false);
 
-        
-        // UseItem();
-        
+        if (threadTerminado == true)
+        {
+            posicionInicial();
+
+            ListaDeHilos.Add(_t1);
+            ListaDeHilos[numHilos] = new Thread(Ejecutar);
+            threadTerminado = false;
+            ListaDeHilos[numHilos].Start();
+            numHilos++;
+        }
+        else
+        {
+            
+            Debug.Log("Aun no termina el thread anterior");
+        }
 
     }
 

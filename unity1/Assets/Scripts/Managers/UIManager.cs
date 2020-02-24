@@ -40,6 +40,9 @@ public class UIManager : MonoBehaviour
     private Text levelText;
 
     [SerializeField]
+    private Button botonplay;
+
+    [SerializeField]
     private Image portraitFrame;
 
     [SerializeField]
@@ -77,6 +80,12 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         //healthStat = targetFrame.GetComponentInChildren<Stat>();
+    }
+
+    public void setbotonplayEnable(bool en)
+    {
+        botonplay.enabled = en;
+        
     }
 
     // Update is called once per frame
@@ -192,12 +201,14 @@ public class UIManager : MonoBehaviour
 
     public void OpenClose(CanvasGroup canvasGroup)
     {
+        //Debug.Log("in?");
         canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
         canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts == true ? false : true;
     }
 
     public void OpenSingle(CanvasGroup canvasGroup)
     {
+        //Debug.Log("in?");
         foreach (CanvasGroup canvas in menus)
         {
             CloseSingle(canvas);
@@ -209,6 +220,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseSingle(CanvasGroup canvasGroup)
     {
+        Debug.Log("in?");
         canvasGroup.alpha  = 0;
         canvasGroup.blocksRaycasts = false;
 

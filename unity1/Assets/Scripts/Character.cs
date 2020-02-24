@@ -7,17 +7,17 @@ public class Character : MonoBehaviour
 {
     [SerializeField]
     protected float speed;
-    protected Vector2 direction;
+    public Vector2 direction;
     protected Animator animator;
    
-    protected int dist = 33; //distancia a recorrer
-    protected int pasos; //pasos recorridos hasta llegar a dist
+    public int dist = 33; //distancia a recorrer
+    public int pasos; //pasos recorridos hasta llegar a dist
     protected bool mover = false; //boton de mover presionado?
     protected bool caminarAdelante = false; //camina hacia adelante?
     public bool choqueArbol; //choca con un arbol?
     protected bool choqueAgua = false; // Choca con el agua?
     protected Vector2 directionSpell;
-
+    public bool cambiarDir;
     [SerializeField]
     float bulletSpeed = 500f;
 
@@ -26,7 +26,7 @@ public class Character : MonoBehaviour
     protected float velX = 5f;
     protected float velY = 5f;
     private Rigidbody2D myRigidbody;
-
+    public BotonPlay botonplay;
     public Vector2 Direction
     {
         get
@@ -51,6 +51,7 @@ public class Character : MonoBehaviour
         pasos = dist; //pasos parte igual a la distancia para permanecer quieto cuando se presiona el boton de mover pasos cambia a 0
         direction = Vector2.down; //parte en direccion hacia abajo
         choqueArbol = false;
+        botonplay = BotonPlay.PlayInstance;
         //directionSpell = Vector2.down;
     }
 
@@ -103,12 +104,13 @@ public class Character : MonoBehaviour
                 if (pasos == dist)
                 {
                     mover = false;
+                    botonplay._t1Paused = false;
                 }
             }
             else
             {
                 pasos = dist; //para que se detenga
-                BotonPlay.PlayInstance._t1Paused = false;
+                botonplay._t1Paused = false;
                 //Debug.Log("in");
             }
             if (direction.x != 0 || direction.y != 0) // si una de las dos direcciones no es 0 significa que se está moviendo
@@ -120,12 +122,18 @@ public class Character : MonoBehaviour
                 Debug.Log("inidle");
             }
         }
+        else if (cambiarDir)
+        {
+            CambiarDireccion(direction);
+            cambiarDir = false;
+        }
         else //este else funciona al terminar de caminar
         {
             
             myRigidbody.velocity = Vector2.zero;
             ActivateLayer("IdleLayer");
         }
+
         /*   else if (isAttacking)
            {
                ActivateLayer("AttackLayer");
@@ -181,6 +189,13 @@ public class Character : MonoBehaviour
         }
 
     }
+    public void CambiarDireccion(Vector2 dire)
+    {
+        animator.SetFloat("x", dire.x);
+        animator.SetFloat("y", dire.y);
+    }
+    
+
 
     public void AnimateMove()
     {

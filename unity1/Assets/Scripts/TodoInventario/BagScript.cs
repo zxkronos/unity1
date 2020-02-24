@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class BagScript : MonoBehaviour
+public class BagScript : MonoBehaviour, IPointerClickHandler
 {
 
     /// <summary>
@@ -101,6 +102,15 @@ public class BagScript : MonoBehaviour
         }
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right && HandScript.MyInstance.MyMoveable != null)
+        {
+            InventoryScript.MyInstance.FromSlot.MyCover.enabled = false;
+            HandScript.MyInstance.Drop();
+
+        }
+    }
     /// <summary>
     /// Adds an item to the bag
     /// </summary>

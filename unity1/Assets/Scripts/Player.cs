@@ -8,6 +8,7 @@ public class Player : Character
 
     private static Player instance;
     public BotonPlay boton;
+    
 
     public static Player MyInstance
     {
@@ -27,7 +28,7 @@ public class Player : Character
     protected override void Start() {
         base.Start();
         boton = BotonPlay.PlayInstance;
-
+        
     }
 
     
@@ -50,10 +51,96 @@ public class Player : Character
             mover = true;
             caminarAdelante = true;
             pasos = 0;
-            Debug.Log("inmov");
             boton._t1Paused = true;
-            Debug.Log("inmov2");
+            
         }
+    }
+    public void moverAtras()
+    {
+
+    }
+
+    public void GirarDerecha()
+    {
+        if (pasos == dist)
+        {
+
+            if (direction == Vector2.left)
+            {
+                direction = Vector2.up;
+                cambiarDir = true;
+                //  barrel.transform.position = new Vector3(-0.03f - 4.96f, 0.9f - 0.9200001f, 0);
+            }
+            else if (direction == Vector2.up)
+            {
+                direction = Vector2.right;
+                cambiarDir = true;
+                // barrel.transform.position = new Vector3(1f - 4.96f, -0.1f - 0.9200002f, 0);
+            }
+            else if (direction == Vector2.right)
+            {
+                direction = Vector2.down;
+                cambiarDir = true;
+                // barrel.transform.position = new Vector3(-0.03f - 4.96f, -0.9f - 0.9200001f, 0);
+            }
+            else if (direction == Vector2.down)
+            {
+                direction = Vector2.left;
+                cambiarDir = true;
+                //  barrel.transform.position = new Vector3(1f - 6.96f, -0.1f - 0.9200002f, 0);
+            }
+            //directionSpell = direction;
+            
+        }
+      //  BotonPlay.PlayInstance._t1Paused = false;
+    }
+
+    public void GirarIzquierda()
+    {
+       // boton._t1Paused = true;
+
+        if (pasos == dist)
+        {
+            if (direction == Vector2.left)
+            {
+                
+                direction = Vector2.down;
+                cambiarDir = true;
+                //  barrel.transform.position = new Vector3(-0.03f-4.96f, -0.9f-0.9200001f, 0);
+            }
+            else if (direction == Vector2.down)
+            {
+                //CambiarDireccion( Vector2.right);
+                direction = Vector2.right;
+                cambiarDir = true;
+                //directionSpell = Vector2.right;
+                //  barrel.transform.position = new Vector3(1f-4.96f, -0.1f-0.9200002f, 0);
+            }
+
+            else if (direction == Vector2.right)
+            {
+                //CambiarDireccion(Vector2.up);
+                direction = Vector2.up;
+                cambiarDir = true;
+                //directionSpell = Vector2.up;
+                //  barrel.transform.position = new Vector3(-0.03f - 4.96f, 0.9f - 0.9200001f, 0);
+            }
+
+            else if (direction == Vector2.up)
+            {
+                //CambiarDireccion(Vector2.left);
+                direction = Vector2.left;
+                cambiarDir = true;
+                //directionSpell = Vector2.left;
+                //  barrel.transform.position = new Vector3(1f - 6.96f, -0.1f - 0.9200002f, 0);
+            }
+
+            //directionSpell = direction;
+
+            //direction = Vector2.left;
+            //pasos = 0;
+        }
+        //BotonPlay.PlayInstance._t1Paused = false;
     }
 
     private void GetInput() {
