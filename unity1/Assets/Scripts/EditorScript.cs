@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EditorScript : MonoBehaviour
@@ -24,6 +25,8 @@ public class EditorScript : MonoBehaviour
         }
 
     }
+    [SerializeField] public GameObject inputWinGO;
+    public TMP_InputField InputFieldStack;
 
     [SerializeField]
     private GameObject lineaPrefab;
@@ -34,8 +37,8 @@ public class EditorScript : MonoBehaviour
     [SerializeField]
     public int CantLineas;
 
-    private LineaScript linea;
-    private ActScript act;
+    public LineaScript linea;
+    public ActScript act;
 
     public List<LineaScript> lineas = new List<LineaScript>();
 
@@ -53,6 +56,7 @@ public class EditorScript : MonoBehaviour
             return instance;
         }
     }
+
 
     public void AgregarLinea() //añade linea y act
     {
@@ -112,23 +116,6 @@ public class EditorScript : MonoBehaviour
 
         // Instantiate(lineaPrefab, transform).name = "hola";
 
-        //    ActScript act = Instantiate(actPrefab, transform).GetComponent<ActScript>();
-        //  act.transform.parent = linea.transform;
-        //act.transform.localScale = new Vector3(0.5f, 0.5f, 1f) ;
-
-        /*Bag bag = (Bag)Instantiate(items[8]);
-        bag.Initialize(20);
-
-        bag.Use();
         
-
-        Bag bag2 = (Bag)Instantiate(items[8]);
-        bag2.Initialize(20);
-
-        bag2.Use();
-
-        AgregarItem(bag2, (Armor)Instantiate(items[0]));
-        AgregarItem(bag2, (Armor)Instantiate(items[1]));
-        */
     }
 }

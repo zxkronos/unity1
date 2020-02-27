@@ -232,7 +232,7 @@ public class UIManager : MonoBehaviour
     /// <param name="clickable"></param>
     public void UpdateStackSize(IClickable clickable)
     {
-        if (clickable.MyCount > 1) //If our slot has more than one item on it
+        if (clickable.MyCount >= 1) //If our slot has more than one item on it
         {
             clickable.MyStackText.text = clickable.MyCount.ToString();
             clickable.MyStackText.enabled = true;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPointerEnterHandler, IPointerExitHandler
 {
@@ -11,7 +12,9 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     /// </summary>
     public IUseable MyUseable { get; set; }
     public IUseable MiUsable { get; set; }
-
+    
+    
+    public InputWindow InputWinObj;
     public int MyIndex { get; set; }
 
     public static ActScript MyAct { get; set; }
@@ -151,6 +154,9 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             CmdMover mov = (CmdMover)actUsable;
             //Debug.Log(mov.MyTitle);
             MiUsable = actUsable;
+            mov.stackSize = 1;
+            InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
+            InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
             EditorScript.MyInstance.AgregarLinea();
             
         }
@@ -176,6 +182,15 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                 {
                     CmdMover mov = (CmdMover)HandScript.MyInstance.MyMoveable;
                     //Debug.Log(mov.MyTitle);
+                    //IClickable clickable= (IClickable)HandScript.MyInstance.MyMoveable;
+                    mov.stackSize = 1;
+                    //Debug.Log("in?");
+                    InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
+                    InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
+                    //inputWinGO.text = mov.stackSize.ToString();
+                    // clickable.MyStackText.text = mov.stackSize.ToString();
+                    //clickable.MyStackText.enabled = true;
+                    //clickable.MyIcon.enabled = true;
 
                     EditorScript.MyInstance.AgregarLinea();
 

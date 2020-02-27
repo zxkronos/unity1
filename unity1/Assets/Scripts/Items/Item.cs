@@ -18,7 +18,7 @@ public abstract class Item : ScriptableObject, IMoveable, IDescribable
     /// The size of the stack, less than 2 is not stackable
     /// </summary>
     [SerializeField]
-    private int stackSize;
+    public int stackSize;
 
     /// <summary>
     /// The item's title

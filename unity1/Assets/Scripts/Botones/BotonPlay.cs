@@ -72,14 +72,13 @@ public class BotonPlay : MonoBehaviour
                     if (mov.moveType.ToString() == "MoverAdelante")
                     {
                         //Debug.Log("hola cmdmover " + item.MyTitle);
-
                         _t1Paused = false;
                         player.moverAdelante();
                         //Debug.Log("oli " + item.MyTitle);
-
-                        while (_t1Paused)
+                        Thread.Sleep(1000);
+                        /*while (_t1Paused)
                         {
-                        }
+                        }*/
 
                     }
                     else if (mov.moveType.ToString() == "GirarDerecha")
@@ -95,18 +94,21 @@ public class BotonPlay : MonoBehaviour
                         //Debug.Log("in");
                         //_t1Paused = true;
                         player.GirarIzquierda();
-                        //Debug.Log("oli " + item.MyTitle);
+                        
 
                         Thread.Sleep(500);
                     }
                     else if (mov.moveType.ToString() == "MoverAtras")
                     {
-                        //Debug.Log("in");
-                        //_t1Paused = true;
-                        //player.MoverAtras();
+                        _t1Paused = false;
+                        player.moverAtras();
                         //Debug.Log("oli " + item.MyTitle);
+                        Thread.Sleep(1000);
+                      /*  while (_t1Paused)
+                        {
+                        }*/
 
-                        Thread.Sleep(500);
+                        
                     }
 
                 }
@@ -127,9 +129,10 @@ public class BotonPlay : MonoBehaviour
         if (numHilos > 0) //detecta si se presiona el boton más de una vez
         {
             //vuelve a la posicion inicial
+            player.CambiarDireccion(Vector2.down);
+            player.pasos = player.dist;
             player.transform.position = posicionIncial;
-            player.direction = Vector2.down;
-            player.pasos = 0;
+            
         }
     }
 
@@ -174,9 +177,7 @@ public class BotonPlay : MonoBehaviour
 
                 if (mov.moveType.ToString() == "MoverAdelante")
                 {
-                    Debug.Log("hola cmdmover " + item.MyTitle);
-                    
-                    
+                   // Debug.Log("hola cmdmover " + item.MyTitle);
                         Player.MyInstance.moverAdelante();
                     
                     

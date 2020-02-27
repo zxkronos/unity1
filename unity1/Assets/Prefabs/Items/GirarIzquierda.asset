@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7f2a49c1fcfd5449eaa1a2baeee9db, type: 3}
   m_Name: GirarIzquierda
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d607b36956cc6374e93aff2ecd32e5da, type: 3}
   stackSize: 0
   titel: 
   quality: 0
   price: 0
+  moveType: 3
   cantidadPasos: 0

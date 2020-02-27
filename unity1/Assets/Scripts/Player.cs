@@ -57,7 +57,14 @@ public class Player : Character
     }
     public void moverAtras()
     {
-
+        if (pasos == dist)
+        {
+            //direction = Vector2.up;
+            mover = true;
+            caminarAdelante = false;
+            pasos = 0;
+            boton._t1Paused = true;
+        }
     }
 
     public void GirarDerecha()

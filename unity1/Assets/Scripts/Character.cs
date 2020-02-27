@@ -111,6 +111,7 @@ public class Character : MonoBehaviour
             {
                 pasos = dist; //para que se detenga
                 botonplay._t1Paused = false;
+                caminarAdelante = true;
                 //Debug.Log("in");
             }
             if (direction.x != 0 || direction.y != 0) // si una de las dos direcciones no es 0 significa que se está moviendo
@@ -191,6 +192,7 @@ public class Character : MonoBehaviour
     }
     public void CambiarDireccion(Vector2 dire)
     {
+        direction = dire;
         animator.SetFloat("x", dire.x);
         animator.SetFloat("y", dire.y);
     }
