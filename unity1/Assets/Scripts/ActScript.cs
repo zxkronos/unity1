@@ -95,6 +95,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             MyAct = FindObjectOfType<ActScript>(); //primer Act por defecto
         }
         EditorScript.MyInstance.acts.Add(MyAct);
+        EditorScript.MyInstance.act = MyAct;
         MyIndex = 1;
 
     }
@@ -147,23 +148,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     }
 
 
-    public void AddActClickDerecho(IUseable actUsable)
-    {
-        if (actUsable is CmdMover)
-        {
-            CmdMover mov = (CmdMover)actUsable;
-            //Debug.Log(mov.MyTitle);
-            MiUsable = actUsable;
-            mov.stackSize = 1;
-            InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
-            InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
-            EditorScript.MyInstance.AgregarLinea();
-            
-        }
-
-        SetUseable(actUsable);
-
-    }
+    
 
     /// <summary>
     /// Checks if someone clicked on the actionbutton
@@ -181,12 +166,16 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                 if (HandScript.MyInstance.MyMoveable is CmdMover)
                 {
                     CmdMover mov = (CmdMover)HandScript.MyInstance.MyMoveable;
+                    MiUsable = (IUseable)HandScript.MyInstance.MyMoveable;
                     //Debug.Log(mov.MyTitle);
                     //IClickable clickable= (IClickable)HandScript.MyInstance.MyMoveable;
                     mov.stackSize = 1;
                     //Debug.Log("in?");
                     InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
-                    InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
+                    InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
+                    InputWinObj.MyIndex = EditorScript.MyInstance.linea.MyIndex;
+                    //InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
+                    //InputWinObj.transform.localScale = new Vector3(1f, 1f, 1f);
                     //inputWinGO.text = mov.stackSize.ToString();
                     // clickable.MyStackText.text = mov.stackSize.ToString();
                     //clickable.MyStackText.enabled = true;
@@ -214,6 +203,26 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                 //HandScript.MyInstance.TakeMoveable(MyItem as IMoveable);
             }
         }
+    }
+
+    public void AddActClickDerecho(IUseable actUsable)
+    {
+        if (actUsable is CmdMover)
+        {
+            CmdMover mov = (CmdMover)actUsable;
+            //Debug.Log(mov.MyTitle);
+            MiUsable = actUsable;
+            mov.stackSize = 1;
+            InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
+           // InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
+           InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
+            
+            EditorScript.MyInstance.AgregarLinea();
+
+        }
+
+        SetUseable(actUsable);
+
     }
 
     /// <summary>

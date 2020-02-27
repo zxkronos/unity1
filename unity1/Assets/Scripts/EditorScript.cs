@@ -44,6 +44,19 @@ public class EditorScript : MonoBehaviour
 
     public List<ActScript> acts = new List<ActScript>();
 
+    private void Awake()
+    {
+        linea = FindObjectOfType<LineaScript>();
+        linea.MyIndex = 1;
+        //linea.name = "a "+linea.MyIndex;
+        lineas.Add(linea);
+        // LineaScript linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>();
+
+        // Instantiate(lineaPrefab, transform).name = "hola";
+
+
+    }
+
     public static EditorScript MyInstance
     {
         get
@@ -75,8 +88,8 @@ public class EditorScript : MonoBehaviour
         linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>(); //se agrega linea como gameobject
         linea.MyIndex = IndexActualLinea + 1; // num de linea de codigo
         int IndexActualAct = ActScript.MyAct.MyIndex;
-        ActScript.MyAct = linea.transform.GetChild(0).GetComponent<ActScript>();
-        ActScript.MyAct.MyIndex = IndexActualAct + 1;
+        ActScript.MyAct = linea.transform.GetChild(0).GetComponent<ActScript>(); //Obtener hijo de linea que es un act
+        ActScript.MyAct.MyIndex = IndexActualAct + 1; // el indexs 
         //ActScript.MyAct.transform.name = "hola";
         acts.Add(ActScript.MyAct);
         // 
@@ -106,16 +119,5 @@ public class EditorScript : MonoBehaviour
         acts.Add(ActScript.MyAct);
     }
 
-    private void Awake()
-    {
-        linea = FindObjectOfType<LineaScript>();
-        linea.MyIndex = 1;
-        //linea.name = "a "+linea.MyIndex;
-        lineas.Add(linea);
-        // LineaScript linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>();
-
-        // Instantiate(lineaPrefab, transform).name = "hola";
-
-        
-    }
+    
 }
