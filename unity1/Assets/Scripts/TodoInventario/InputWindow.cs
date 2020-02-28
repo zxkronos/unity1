@@ -10,11 +10,13 @@ public class InputWindow : MonoBehaviour
     public int MyIndex { get; set; }
     private EditorScript editor;
     private Item item;
+    private CmdMover mov;
 
     private void Awake()
     {
         StackField.text = "1";
         editor = EditorScript.MyInstance;
+        MyIndex = 1;
     }
 
         public void Show()
@@ -28,10 +30,15 @@ public class InputWindow : MonoBehaviour
     }
     public void CambiarStack()
     {
-        item =(Item)editor.acts[MyIndex].MiUsable;
+        mov =(CmdMover)editor.acts[MyIndex].item;
         int x = 0;
+     //   Debug.Log(mov);
+        if (Int32.TryParse(StackField.text, out x)) {
+           // Debug.Log("index " + MyIndex);
+            mov.stackSize = x;
+        }
+        
+        
 
-        Int32.TryParse(StackField.text, out x);
-        item.stackSize = x;
     }
 }

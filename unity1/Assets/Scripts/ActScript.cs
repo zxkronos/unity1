@@ -20,6 +20,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     public static ActScript MyAct { get; set; }
 
     public static ActScript act;
+    public Item item;
 
     [SerializeField]
     private Text stackSize;
@@ -166,6 +167,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                 if (HandScript.MyInstance.MyMoveable is CmdMover)
                 {
                     CmdMover mov = (CmdMover)HandScript.MyInstance.MyMoveable;
+                    item = mov;
                     MiUsable = (IUseable)HandScript.MyInstance.MyMoveable;
                     //Debug.Log(mov.MyTitle);
                     //IClickable clickable= (IClickable)HandScript.MyInstance.MyMoveable;
@@ -210,13 +212,14 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         if (actUsable is CmdMover)
         {
             CmdMover mov = (CmdMover)actUsable;
+            item = mov;
             //Debug.Log(mov.MyTitle);
             MiUsable = actUsable;
             mov.stackSize = 1;
             InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
            // InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
            InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
-            
+            InputWinObj.MyIndex = EditorScript.MyInstance.linea.MyIndex;
             EditorScript.MyInstance.AgregarLinea();
 
         }

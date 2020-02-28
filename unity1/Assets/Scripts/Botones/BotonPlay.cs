@@ -67,7 +67,7 @@ public class BotonPlay : MonoBehaviour
                 {
 
                     CmdMover mov = (CmdMover)item;
-
+                    Debug.Log("stack "+mov.stackSize);
                     //Debug.Log(mov.moveType.ToString());
                     if (mov.moveType.ToString() == "MoverAdelante")
                     {
