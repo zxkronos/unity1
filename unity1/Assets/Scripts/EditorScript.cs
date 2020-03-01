@@ -43,7 +43,7 @@ public class EditorScript : MonoBehaviour
     public List<LineaScript> lineas = new List<LineaScript>();
 
     public List<ActScript> acts = new List<ActScript>();
-
+    public List<TMP_InputField> inputs = new List<TMP_InputField>();
     private void Awake()
     {
         linea = FindObjectOfType<LineaScript>();
@@ -53,7 +53,13 @@ public class EditorScript : MonoBehaviour
         // LineaScript linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>();
 
         // Instantiate(lineaPrefab, transform).name = "hola";
-
+        if (act == null)
+        {
+            act = FindObjectOfType<ActScript>(); //primer Act por defecto
+            ActScript.MyAct = act;
+            act.MyIndex = 1;
+            acts.Add(act);    
+        }
 
     }
 
@@ -77,21 +83,22 @@ public class EditorScript : MonoBehaviour
         {
             items.Add((Item)HandScript.MyInstance.MyMoveable); //añade lo que tiene el handscript en la lista de items
         }
-        else if (ActScript.MyAct.MiUsable != null)
+        else if (act.MiUsable != null)
         {
             //Debug.Log("Holo");
-            items.Add((Item)ActScript.MyAct.MiUsable);
-            ActScript.MyAct.MiUsable = null;
+            items.Add((Item)act.MiUsable);
+            act.MiUsable = null;
         }
 
         int IndexActualLinea = linea.MyIndex; //numero de linea de codigo
         linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>(); //se agrega linea como gameobject
         linea.MyIndex = IndexActualLinea + 1; // num de linea de codigo
-        int IndexActualAct = ActScript.MyAct.MyIndex;
-        ActScript.MyAct = linea.transform.GetChild(0).GetComponent<ActScript>(); //Obtener hijo de linea que es un act
-        ActScript.MyAct.MyIndex = IndexActualAct + 1; // el indexs 
-        //ActScript.MyAct.transform.name = "hola";
-        acts.Add(ActScript.MyAct);
+        int IndexActualAct = act.MyIndex;
+        act = linea.transform.GetChild(0).GetComponent<ActScript>(); //Obtener hijo de linea que es un act
+        ActScript.MyAct = act;
+        act.MyIndex = IndexActualAct + 1; // el indexs 
+        //act.transform.name = "hola";
+        acts.Add(act);
         // 
         //Debug.Log(acts[0].MyIndex);
         
@@ -100,23 +107,24 @@ public class EditorScript : MonoBehaviour
     }
 
     public void AgregarAct() //añade act horizontal es para el if por ejemplo
-    {    // ActScript.MyAct es el act actual, acts es la lista de actos
+    {    // act es el act actual, acts es la lista de actos
         if (HandScript.MyInstance.MyMoveable != null)
         {
             items.Add((Item)HandScript.MyInstance.MyMoveable);
         }  
-        else if (ActScript.MyAct.MiUsable !=null)
+        else if (act.MiUsable !=null)
         {
-            items.Add((Item)ActScript.MyAct.MiUsable);
-            ActScript.MyAct.MiUsable = null;
+            items.Add((Item)act.MiUsable);
+            act.MiUsable = null;
         }
 
-        int IndexActualAct = ActScript.MyAct.MyIndex;
-        ActScript.MyAct = Instantiate(actPrefab, transform).GetComponent<ActScript>();
-        ActScript.MyAct.MyIndex = IndexActualAct + 1;
-        ActScript.MyAct.transform.parent = linea.transform;
-        ActScript.MyAct.transform.localScale = new Vector3(0.5f, 0.5f, 1f) ;
-        acts.Add(ActScript.MyAct);
+        int IndexActualAct = act.MyIndex;
+        act = Instantiate(actPrefab, transform).GetComponent<ActScript>();
+        ActScript.MyAct = act;
+        act.MyIndex = IndexActualAct + 1;
+        act.transform.parent = linea.transform;
+        act.transform.localScale = new Vector3(0.5f, 0.5f, 1f) ;
+        acts.Add(act);
     }
 
     

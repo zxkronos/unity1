@@ -10,7 +10,8 @@ using UnityEngine.Experimental.UIElements;
 public class BotonPlay : MonoBehaviour
 {
     private List<Item> items = new List<Item>();
-    
+    private List<ActScript> acts = new List<ActScript>();
+    private Item item;
     public Thread _t1;
     public List<Thread> ListaDeHilos;
     public int numHilos;
@@ -60,56 +61,62 @@ public class BotonPlay : MonoBehaviour
         
         try
         {
-            foreach (Item item in items)
+            foreach (ActScript act in acts)
             {
                 //Debug.Log("inforach");
+                item = act.item;
+
                 if (item is CmdMover)
                 {
 
                     CmdMover mov = (CmdMover)item;
-                    Debug.Log("stack "+mov.stackSize);
+                    //Debug.Log("stack "+act.miStack);
+                    for (int i = 0; i< act.miStack; i++)
+                    {
+                        if (mov.moveType.ToString() == "MoverAdelante")
+                        {
+                            //Debug.Log("hola cmdmover " + item.MyTitle);
+                            _t1Paused = false;
+                            player.moverAdelante();
+                            //Debug.Log("oli " + item.MyTitle);
+                            Thread.Sleep(1000);
+                            /*while (_t1Paused)
+                            {
+                            }*/
+
+                        }
+                        else if (mov.moveType.ToString() == "GirarDerecha")
+                        {
+                            //_t1Paused = true;
+                            player.GirarDerecha();
+                            //Debug.Log("oli " + item.MyTitle);
+                            Thread.Sleep(500);
+
+                        }
+                        else if (mov.moveType.ToString() == "GirarIzquierda")
+                        {
+                            //Debug.Log("in");
+                            //_t1Paused = true;
+                            player.GirarIzquierda();
+
+
+                            Thread.Sleep(500);
+                        }
+                        else if (mov.moveType.ToString() == "MoverAtras")
+                        {
+                            _t1Paused = false;
+                            player.moverAtras();
+                            //Debug.Log("oli " + item.MyTitle);
+                            Thread.Sleep(1000);
+                            /*  while (_t1Paused)
+                              {
+                              }*/
+
+
+                        }
+                    }
                     //Debug.Log(mov.moveType.ToString());
-                    if (mov.moveType.ToString() == "MoverAdelante")
-                    {
-                        //Debug.Log("hola cmdmover " + item.MyTitle);
-                        _t1Paused = false;
-                        player.moverAdelante();
-                        //Debug.Log("oli " + item.MyTitle);
-                        Thread.Sleep(1000);
-                        /*while (_t1Paused)
-                        {
-                        }*/
-
-                    }
-                    else if (mov.moveType.ToString() == "GirarDerecha")
-                    {
-                        //_t1Paused = true;
-                        player.GirarDerecha();
-                        //Debug.Log("oli " + item.MyTitle);
-                        Thread.Sleep(500);
-                       
-                    }
-                    else if (mov.moveType.ToString() == "GirarIzquierda")
-                    {
-                        //Debug.Log("in");
-                        //_t1Paused = true;
-                        player.GirarIzquierda();
-                        
-
-                        Thread.Sleep(500);
-                    }
-                    else if (mov.moveType.ToString() == "MoverAtras")
-                    {
-                        _t1Paused = false;
-                        player.moverAtras();
-                        //Debug.Log("oli " + item.MyTitle);
-                        Thread.Sleep(1000);
-                      /*  while (_t1Paused)
-                        {
-                        }*/
-
-                        
-                    }
+                    
 
                 }
 
@@ -140,6 +147,7 @@ public class BotonPlay : MonoBehaviour
     {
         
         items = EditorScript.MyInstance.MyItems;
+        acts = EditorScript.MyInstance.acts;
         //Debug
 
         //ui.setbotonplayEnable(false);

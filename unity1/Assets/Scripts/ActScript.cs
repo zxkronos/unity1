@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPointerEnterHandler, IPointerExitHandler
 {
@@ -21,9 +22,13 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
     public static ActScript act;
     public Item item;
+    public Item itemAnterior;
+    public CmdMover mov;
 
     [SerializeField]
     private Text stackSize;
+
+    public int miStack;
 
     private Stack<IUseable> useables = new Stack<IUseable>();
 
@@ -90,14 +95,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
     private void Awake()
     {
-       // MyAct = new ActScript();
-        if (MyAct == null)
-        {
-            MyAct = FindObjectOfType<ActScript>(); //primer Act por defecto
-        }
-        EditorScript.MyInstance.acts.Add(MyAct);
-        EditorScript.MyInstance.act = MyAct;
-        MyIndex = 1;
+       
 
     }
 
@@ -123,6 +121,9 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         MyButton = GetComponent<Button>();
         MyButton.onClick.AddListener(OnClick);
         InventoryScript.MyInstance.itemCountChangedEvent += new ItemCountChanged(UpdateItemCount);
+
+        // MyAct = new ActScript();
+        
 
     }
 
@@ -171,13 +172,13 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                     MiUsable = (IUseable)HandScript.MyInstance.MyMoveable;
                     //Debug.Log(mov.MyTitle);
                     //IClickable clickable= (IClickable)HandScript.MyInstance.MyMoveable;
-                    mov.stackSize = 1;
+                    // mov.stackSize = 1;
+                    miStack = 1;
                     //Debug.Log("in?");
                     InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
                     InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
                     InputWinObj.MyIndex = EditorScript.MyInstance.linea.MyIndex;
-                    //InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
-                    //InputWinObj.transform.localScale = new Vector3(1f, 1f, 1f);
+                    
                     //inputWinGO.text = mov.stackSize.ToString();
                     // clickable.MyStackText.text = mov.stackSize.ToString();
                     //clickable.MyStackText.enabled = true;
@@ -211,21 +212,79 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     {
         if (actUsable is CmdMover)
         {
-            CmdMover mov = (CmdMover)actUsable;
-            item = mov;
-            //Debug.Log(mov.MyTitle);
-            MiUsable = actUsable;
-            mov.stackSize = 1;
-            InputWinObj = Instantiate(EditorScript.MyInstance.inputWinGO, transform).GetComponent<InputWindow>(); //se agrega linea como gameobject
-           // InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
-           InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
-            InputWinObj.MyIndex = EditorScript.MyInstance.linea.MyIndex;
-            EditorScript.MyInstance.AgregarLinea();
+            CmdMover movAnterior=null;
+
+            if (EditorScript.MyInstance.MyItems.Count > 0)
+            {
+                //Debug.Log("hola");
+                movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count-1];
+            }
+            
+            mov = (CmdMover)actUsable; // cuando se genera el mov actual mov va recoger el ultimo item de la lista
+                                        //el cual es el que se agrego anteriormente porque este serta el ultimo
+           // Debug.Log("mov " + mov);
+            //Debug.Log("movAnt " + movAnterior);
+            if (movAnterior != null)
+            {
+               // Debug.Log("mov ant "+movAnterior.moveType);
+               // Debug.Log("mov "+mov.moveType);
+                if (movAnterior.moveType == mov.moveType)
+                {
+                    Debug.Log("mi index "+MyIndex);
+                    int x = 0;
+
+                    if (Int32.TryParse(EditorScript.MyInstance.inputs[EditorScript.MyInstance.MyItems.Count - 1].text, out x))
+                    {
+                        x = x + 1;
+                        EditorScript.MyInstance.inputs[EditorScript.MyInstance.MyItems.Count - 1].text = x.ToString();
+                        EditorScript.MyInstance.acts[EditorScript.MyInstance.MyItems.Count - 1].miStack = x;
+                    }
+                }
+                else
+                {
+                    addActMov(actUsable);
+                }
+            }
+            else
+            {
+                addActMov(actUsable);
+            }
 
         }
+        else if (actUsable is Si)
+        {
+            
+            MiUsable = actUsable;
+            
+            EditorScript.MyInstance.AgregarAct();
+
+            SetUseable(actUsable);
+        }
+
+        
+
+    }
+
+    private void addActMov(IUseable actUsable)
+    {
+        item = mov;
+        //Debug.Log(mov.MyTitle);
+        MiUsable = actUsable;
+        //mov.stackSize = 1;
+        miStack = 1;
+        GameObject go = Instantiate(EditorScript.MyInstance.inputWinGO, transform) as GameObject; //se agrega linea como gameobject
+        InputWinObj = go.GetComponent<InputWindow>();
+        EditorScript.MyInstance.inputs.Add(InputWinObj.StackField);
+
+        // InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
+        InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
+        InputWinObj.MyIndex = EditorScript.MyInstance.linea.MyIndex;
+        InputWinObj.item = item;
+        //EditorScript.MyInstance.inputs[0].text = "66";
+        //InputWinObj.act = this;
+        EditorScript.MyInstance.AgregarLinea();
 
         SetUseable(actUsable);
-
     }
 
     /// <summary>

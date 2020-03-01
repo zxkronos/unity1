@@ -118,12 +118,17 @@ public class InventoryScript : MonoBehaviour
 
 
         Bag bag2 = (Bag)Instantiate(items[8]);
-        bag2.Initialize(20);
+        bag2.Initialize(6);
 
         bag2.Use();
 
-        AgregarItem(bag2, (Armor)Instantiate(items[0]));
-        AgregarItem(bag2, (Armor)Instantiate(items[1]));
+        
+        AgregarItem(bag2, (Si)Instantiate(items[17]));
+        AgregarItem(bag2, (Si)Instantiate(items[18]));
+        AgregarItem(bag2, (Si)Instantiate(items[19]));
+        AgregarItem(bag2, (Si)Instantiate(items[20]));
+        AgregarItem(bag2, (Si)Instantiate(items[21]));
+        AgregarItem(bag2, (Si)Instantiate(items[22]));
 
     }
 
