@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Character : MonoBehaviour
 {
@@ -9,7 +10,17 @@ public class Character : MonoBehaviour
     protected float speed;
     public Vector2 direction;
     protected Animator animator;
-   
+
+    public Tilemap highlightMap;
+    [SerializeField]
+    public Tile grass;
+    [SerializeField]
+    public Tile sand;
+    public Vector3Int posPlayer;
+    public Vector3Int posVista; //lo que ve el personaje frente
+    public Vector3 direVista;
+    public GameObject Vista;
+
     public int dist = 33; //distancia a recorrer
     public int pasos; //pasos recorridos hasta llegar a dist
     protected bool mover = false; //boton de mover presionado?
@@ -53,6 +64,9 @@ public class Character : MonoBehaviour
         choqueArbol = false;
         botonplay = BotonPlay.PlayInstance;
         //directionSpell = Vector2.down;
+        posPlayer = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+        posVista = highlightMap.WorldToCell(Vista.transform.position);
+        direVista = Vista.transform.position;
     }
 
     
@@ -109,6 +123,9 @@ public class Character : MonoBehaviour
             }
             else
             {
+                posPlayer = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+                posVista = highlightMap.WorldToCell(Vista.transform.position);
+                direVista = Vista.transform.position;
                 pasos = dist; //para que se detenga
                 botonplay._t1Paused = false;
                 caminarAdelante = true;
@@ -125,12 +142,17 @@ public class Character : MonoBehaviour
         }
         else if (cambiarDir)
         {
+            posPlayer = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+            posVista = highlightMap.WorldToCell(Vista.transform.position);
+            //direVista = Vista.transform.position;
+            //Player.MyInstance.transform.position = new Vector3(posPlayer.x+1, posPlayer.y, posPlayer.z);
+            Vista.transform.localPosition = direVista;
             CambiarDireccion(direction);
             cambiarDir = false;
         }
         else //este else funciona al terminar de caminar
         {
-            
+            direVista = Vista.transform.position;
             myRigidbody.velocity = Vector2.zero;
             ActivateLayer("IdleLayer");
         }

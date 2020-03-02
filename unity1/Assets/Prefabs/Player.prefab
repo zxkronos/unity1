@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 629221884}
   - component: {fileID: 629221883}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,6 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1455872575}
+  - {fileID: 6048186404479412706}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97,6 +98,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  direction: {x: 0, y: 0}
+  highlightMap: {fileID: 0}
+  grass: {fileID: 0}
+  sand: {fileID: 0}
+  posPlayer: {x: 0, y: 0, z: 0}
+  Vista: {fileID: 0}
+  dist: 33
+  pasos: 0
+  choqueArbol: 0
+  cambiarDir: 0
+  bulletSpeed: 500
+  botonplay: {fileID: 0}
+  boton: {fileID: 0}
 --- !u!95 &629221885
 Animator:
   serializedVersion: 3
@@ -233,3 +247,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80852ce7bb86fb548a6dedf1849d8d7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6234242303119633456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6048186404479412706}
+  m_Layer: 0
+  m_Name: Vista
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6048186404479412706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234242303119633456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 629221888}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

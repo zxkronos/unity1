@@ -151,16 +151,16 @@ public class BotonPlay : MonoBehaviour
 
     public void Play()
     {
-        Vector3Int currentCell = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+        
         //Debug.Log(highlightMap.);
-        if (highlightMap.GetTile(currentCell) == grass)
+       /* if (highlightMap.GetTile(currentCell) == grass)
         {
             Debug.Log("estoy en el pasto");
         }
         else if (highlightMap.GetTile(currentCell) == sand)
         {
             Debug.Log("estoy en la tierra");
-        }
+        }*/
         //Debug.Log(highlightMap.tag);
         //Debug.Log("current cell " + currentCell);
         items = EditorScript.MyInstance.MyItems;

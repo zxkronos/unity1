@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using UnityEngine.Tilemaps;
 
 public class Player : Character
 {
 
     private static Player instance;
     public BotonPlay boton;
+
     
 
     public static Player MyInstance
@@ -69,30 +71,45 @@ public class Player : Character
 
     public void GirarDerecha()
     {
+        //Vector3Int currentCell = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+        //Debug.Log(highlightMap.);
+       // transform.position = posPlayer; 
+      /*  if (highlightMap.GetTile(currentCell) == grass)
+        {
+            Debug.Log("estoy en el pasto");
+        }
+        else if (highlightMap.GetTile(currentCell) == sand)
+        {
+            Debug.Log("estoy en la tierra");
+        }*/
         if (pasos == dist)
         {
 
             if (direction == Vector2.left)
-            {
+            { 
                 direction = Vector2.up;
+                direVista = new Vector3(direVista.y, direVista.x, direVista.z);
                 cambiarDir = true;
                 //  barrel.transform.position = new Vector3(-0.03f - 4.96f, 0.9f - 0.9200001f, 0);
             }
             else if (direction == Vector2.up)
             {
                 direction = Vector2.right;
+                direVista = new Vector3(direVista.y*-1, direVista.x, direVista.z);
                 cambiarDir = true;
                 // barrel.transform.position = new Vector3(1f - 4.96f, -0.1f - 0.9200002f, 0);
             }
             else if (direction == Vector2.right)
             {
                 direction = Vector2.down;
+                direVista = new Vector3(direVista.y, direVista.x, direVista.z);
                 cambiarDir = true;
                 // barrel.transform.position = new Vector3(-0.03f - 4.96f, -0.9f - 0.9200001f, 0);
             }
             else if (direction == Vector2.down)
             {
                 direction = Vector2.left;
+                direVista = new Vector3(direVista.y*-1, direVista.x, direVista.z);
                 cambiarDir = true;
                 //  barrel.transform.position = new Vector3(1f - 6.96f, -0.1f - 0.9200002f, 0);
             }
