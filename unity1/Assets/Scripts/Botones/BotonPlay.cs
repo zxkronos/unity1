@@ -6,6 +6,7 @@ using Unity.Jobs;
 using Unity.Collections;
 using System.Threading;
 using UnityEngine.Experimental.UIElements;
+using UnityEngine.Tilemaps;
 
 public class BotonPlay : MonoBehaviour
 {
@@ -18,6 +19,11 @@ public class BotonPlay : MonoBehaviour
     public bool _t1Paused = false;
     public Vector3 posicionIncial;
     public bool threadTerminado;
+    public Tilemap highlightMap;
+    [SerializeField]
+    public Tile grass;
+    [SerializeField]
+    public Tile sand;
 
     public float timeWaiting = 5.0f;
 
@@ -68,7 +74,7 @@ public class BotonPlay : MonoBehaviour
 
                 if (item is CmdMover)
                 {
-
+                    
                     CmdMover mov = (CmdMover)item;
                     //Debug.Log("stack "+act.miStack);
                     for (int i = 0; i< act.miStack; i++)
@@ -145,7 +151,18 @@ public class BotonPlay : MonoBehaviour
 
     public void Play()
     {
-        
+        Vector3Int currentCell = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+        //Debug.Log(highlightMap.);
+        if (highlightMap.GetTile(currentCell) == grass)
+        {
+            Debug.Log("estoy en el pasto");
+        }
+        else if (highlightMap.GetTile(currentCell) == sand)
+        {
+            Debug.Log("estoy en la tierra");
+        }
+        //Debug.Log(highlightMap.tag);
+        //Debug.Log("current cell " + currentCell);
         items = EditorScript.MyInstance.MyItems;
         acts = EditorScript.MyInstance.acts;
         //Debug
@@ -167,7 +184,7 @@ public class BotonPlay : MonoBehaviour
             
             Debug.Log("Aun no termina el thread anterior");
         }
-
+        
     }
 
    
