@@ -18,6 +18,8 @@ public class BotonPlay : MonoBehaviour
     public int numHilos;
     public bool _t1Paused = false;
     public Vector3 posicionIncial;
+    public Vector3 posicionIncialVista;
+    public GameObject Vista;
     public bool threadTerminado;
     public Tilemap highlightMap;
     [SerializeField]
@@ -53,6 +55,7 @@ public class BotonPlay : MonoBehaviour
         ListaDeHilos = new List<Thread>();
         numHilos = 0;
         posicionIncial = player.transform.position;
+        posicionIncialVista = Vista.transform.position;
         threadTerminado = true;
        // botonplay = Transform.GetComponent<Button>(); 
     }
@@ -145,7 +148,8 @@ public class BotonPlay : MonoBehaviour
             player.CambiarDireccion(Vector2.down);
             player.pasos = player.dist;
             player.transform.position = posicionIncial;
-            
+            Vista.transform.position = posicionIncialVista;
+            player.direVista = posicionIncialVista;
         }
     }
 

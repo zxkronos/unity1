@@ -23,6 +23,8 @@ public class BotonReset : MonoBehaviour
           //  elplayer.pasos = 0;
             elplayer.pasos = elplayer.dist;
             elplayer.transform.position = botonplay.posicionIncial;
+            botonplay.Vista.transform.position = botonplay.posicionIncialVista;
+            elplayer.direVista = botonplay.posicionIncialVista;
             botonplay.threadTerminado = true;
         }
     }

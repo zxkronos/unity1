@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
     public Tile grass;
     [SerializeField]
     public Tile sand;
-    public Vector3Int posPlayer;
+    public Vector3 posPlayer;
     public Vector3Int posVista; //lo que ve el personaje frente
     public Vector3 direVista;
     public GameObject Vista;
@@ -123,7 +123,7 @@ public class Character : MonoBehaviour
             }
             else
             {
-                posPlayer = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+                posPlayer = Player.MyInstance.transform.position;
                 posVista = highlightMap.WorldToCell(Vista.transform.position);
                 direVista = Vista.transform.position;
                 pasos = dist; //para que se detenga
@@ -142,11 +142,11 @@ public class Character : MonoBehaviour
         }
         else if (cambiarDir)
         {
-            posPlayer = highlightMap.WorldToCell(Player.MyInstance.transform.position);
+            posPlayer = Player.MyInstance.transform.position;
             posVista = highlightMap.WorldToCell(Vista.transform.position);
             //direVista = Vista.transform.position;
             //Player.MyInstance.transform.position = new Vector3(posPlayer.x+1, posPlayer.y, posPlayer.z);
-            Vista.transform.localPosition = direVista;
+            Vista.transform.position = direVista;
             CambiarDireccion(direction);
             cambiarDir = false;
         }

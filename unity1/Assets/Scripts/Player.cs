@@ -88,28 +88,32 @@ public class Player : Character
             if (direction == Vector2.left)
             { 
                 direction = Vector2.up;
-                direVista = new Vector3(direVista.y, direVista.x, direVista.z);
+                direVista = Vector3.zero;
                 cambiarDir = true;
                 //  barrel.transform.position = new Vector3(-0.03f - 4.96f, 0.9f - 0.9200001f, 0);
             }
             else if (direction == Vector2.up)
             {
                 direction = Vector2.right;
-                direVista = new Vector3(direVista.y*-1, direVista.x, direVista.z);
+                direVista = Vector3.zero;
                 cambiarDir = true;
                 // barrel.transform.position = new Vector3(1f - 4.96f, -0.1f - 0.9200002f, 0);
             }
             else if (direction == Vector2.right)
             {
                 direction = Vector2.down;
-                direVista = new Vector3(direVista.y, direVista.x, direVista.z);
+                direVista = Vector3.zero;
                 cambiarDir = true;
                 // barrel.transform.position = new Vector3(-0.03f - 4.96f, -0.9f - 0.9200001f, 0);
             }
             else if (direction == Vector2.down)
             {
+                Debug.Log("y "+direVista.y);
+                Debug.Log("x " + direVista.x);
                 direction = Vector2.left;
-                direVista = new Vector3(direVista.y*-1, direVista.x, direVista.z);
+                direVista = Vector3.zero;
+                Debug.Log("y " + direVista.y);
+                Debug.Log("x " + direVista.x);
                 cambiarDir = true;
                 //  barrel.transform.position = new Vector3(1f - 6.96f, -0.1f - 0.9200002f, 0);
             }
