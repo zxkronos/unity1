@@ -8,7 +8,7 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
     /// A reference to the bag item
     /// </summary>
     private Bag bag;
-
+    private BagButton bagButtonAnterior;
     /// <summary>
     /// Sprites to indicate if the bag is full or empty
     /// </summary>
@@ -86,8 +86,37 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
             }
             else if (bag != null)//If we have a bag equipped
             {
+
+                if (bag.MyBagScript.IsOpen)
+                {
+                    InventoryScript.MyInstance.Close();
+                    GetComponent<Image>().color = new Vector4(1f, 1f, 1f, 1f);
+                }
+                else
+                {
+                    InventoryScript.MyInstance.Close();
+                    bag.MyBagScript.OpenClose();
+                }
+
+
+                    
+                Debug.Log(gameObject.name);
+                
                 //Open or close the bag
-                bag.MyBagScript.OpenClose();
+                
+                
+                foreach (BagButton bagButton in InventoryScript.MyInstance.bagButtons)
+                {
+                    if (bag.MyBagScript.IsOpen)
+                    {
+                        bagButton.GetComponent<Image>().color = new Vector4(1f, 1f, 1f, 1f);
+                        GetComponent<Image>().color = new Vector4(0.4f, 0.4f, 0.4f, 1f);
+                    }
+                    
+                }
+                    
+                
+
             }
 
         }

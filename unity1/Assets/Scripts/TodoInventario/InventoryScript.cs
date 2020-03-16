@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public delegate void ItemCountChanged(Item item);
 
@@ -9,6 +10,9 @@ public class InventoryScript : MonoBehaviour
     public event ItemCountChanged itemCountChangedEvent;
 
     private static InventoryScript instance;
+
+    public Bag bagSi;
+    public Bag bagMov;
 
     public static InventoryScript MyInstance
     {
@@ -28,7 +32,9 @@ public class InventoryScript : MonoBehaviour
     private List<Bag> bags = new List<Bag>();
 
     [SerializeField]
-    private BagButton[] bagButtons;
+    public BagButton[] bagButtons;
+    //private BagButton BagButtonSi;
+    private Image BagIconSi;
 
     //For debugging
     [SerializeField]
@@ -105,35 +111,141 @@ public class InventoryScript : MonoBehaviour
 
     private void Awake()
     {
-        Bag bag = (Bag)Instantiate(items[8]);
-        bag.Initialize(4);
+        bagMov = (Bag)Instantiate(items[8]);
+        bagMov.Initialize(4);
+
+        bagMov.Use();
+
+
+        AgregarItem(bagMov, (CmdMover)Instantiate(items[14]));
+        AgregarItem(bagMov, (CmdMover)Instantiate(items[15]));
+        AgregarItem(bagMov, (CmdMover)Instantiate(items[16]));
+        AgregarItem(bagMov, (CmdMover)Instantiate(items[12]));
         
-        bag.Use();
 
-        
-        AddItem((CmdMover)Instantiate(items[14]));
-        AddItem((CmdMover)Instantiate(items[15]));
-        AddItem((CmdMover)Instantiate(items[16]));
-        AddItem((CmdMover)Instantiate(items[12]));
+        //códigos de Si
+        bagSi = (Bag)Instantiate(items[8]);
+        bagSi.Initialize(12);
 
+        bagSi.Use();
+        //BagIconSi = bagButtons[0].GetComponent<Image>();
+        //BagIconSi.color = new Vector4(0.4f, 0.4f, 0.4f, 1f);
 
-        Bag bag2 = (Bag)Instantiate(items[8]);
-        bag2.Initialize(6);
+       // AgregarItem(bagSi, (Si)Instantiate(items[17]));
+       // AgregarItem(bagSi, (Si)Instantiate(items[18]));
+        AgregarItem(bagSi, (Si)Instantiate(items[19]));//Tiles
+        AgregarItem(bagSi, (Si)Instantiate(items[20]));//Tiles
+        AgregarItem(bagSi, (Si)Instantiate(items[21]));//Tiles
+        AgregarItem(bagSi, (Si)Instantiate(items[22]));//Tiles
+        bagSi.MyBagScript.MySlots[11].AddItem((Si)Instantiate(items[17])); //item 17 si
+        bagSi.MyBagScript.MySlots[10].AddItem((Si)Instantiate(items[23])); //item 23 sino
+        bagSi.MyBagScript.MySlots[9].AddItem((Si)Instantiate(items[24])); //item 24 fin si
+        bagSi.MyBagScript.MySlots[7].AddItem((Si)Instantiate(items[18])); //item 18 ojo
 
-        bag2.Use();
+        //bloqueos de botones
+        siBloqueoInicial();
 
-        
-        AgregarItem(bag2, (Si)Instantiate(items[17]));
-        AgregarItem(bag2, (Si)Instantiate(items[18]));
-        AgregarItem(bag2, (Si)Instantiate(items[19]));
-        AgregarItem(bag2, (Si)Instantiate(items[20]));
-        AgregarItem(bag2, (Si)Instantiate(items[21]));
-        AgregarItem(bag2, (Si)Instantiate(items[22]));
+        OpenClose();
+    }
+    
+    public void siBloqueoInicial()
+    {
+        bagSi.MyBagScript.MySlots[0].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[1].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[2].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[3].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[4].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[7].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[9].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[10].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[11].MyCover.enabled = false;
+
+        bagSi.MyBagScript.MySlots[0].bloqueado = true;
+        bagSi.MyBagScript.MySlots[1].bloqueado = true;
+        bagSi.MyBagScript.MySlots[2].bloqueado = true;
+        bagSi.MyBagScript.MySlots[3].bloqueado = true;
+        bagSi.MyBagScript.MySlots[4].bloqueado = true;
+        bagSi.MyBagScript.MySlots[7].bloqueado = true;
+        bagSi.MyBagScript.MySlots[9].bloqueado = true;
+        bagSi.MyBagScript.MySlots[10].bloqueado = true;
+        bagSi.MyBagScript.MySlots[11].bloqueado = false;
+    }
+
+    public void SiBloquearBotones()
+    {
+        //SiBloqBotones = true;
+        bagSi.MyBagScript.MySlots[0].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[1].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[2].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[3].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[4].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[11].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[7].MyCover.enabled = false;
+
+        bagSi.MyBagScript.MySlots[0].bloqueado = true;
+        bagSi.MyBagScript.MySlots[1].bloqueado = true;
+        bagSi.MyBagScript.MySlots[2].bloqueado = true;
+        bagSi.MyBagScript.MySlots[3].bloqueado = true;
+        bagSi.MyBagScript.MySlots[4].bloqueado = true;
+        bagSi.MyBagScript.MySlots[11].bloqueado = true;
+        bagSi.MyBagScript.MySlots[7].bloqueado = false;
+        //placeinspecific:
+        //bags[bagIndex].MyBagScript.MySlots[slotIndex].AddItem(item);
+        //bagSi.MyBagScript.MySlots[0].MyCover.enabled = true;
+    }
+    public void OjoBloquearBotones()
+    {
+        bagSi.MyBagScript.MySlots[0].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[1].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[2].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[3].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[4].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[7].MyCover.enabled = true;
+
+        bagSi.MyBagScript.MySlots[0].bloqueado = false;
+        bagSi.MyBagScript.MySlots[1].bloqueado = false;
+        bagSi.MyBagScript.MySlots[2].bloqueado = false;
+        bagSi.MyBagScript.MySlots[3].bloqueado = false;
+        bagSi.MyBagScript.MySlots[4].bloqueado = false;
+        bagSi.MyBagScript.MySlots[7].bloqueado = true;
+    }
+    public void tilesDesbloqueoBotones()
+    {
+        /*bagSi.MyBagScript.MySlots[7].bloqueado = false;
+        bagSi.MyBagScript.MySlots[7].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[11].bloqueado = false;
+        bagSi.MyBagScript.MySlots[11].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[9].bloqueado = false;
+        bagSi.MyBagScript.MySlots[9].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[10].bloqueado = false;
+        bagSi.MyBagScript.MySlots[10].MyCover.enabled = false;*/
+
+        siBloqueoInicial();
+        bagSi.MyBagScript.MySlots[9].bloqueado = false;
+        bagSi.MyBagScript.MySlots[9].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[11].bloqueado = true;
+        bagSi.MyBagScript.MySlots[11].MyCover.enabled = true;
+
+    }
+
+    public void finSiDesbloq()
+    {
+        bagSi.MyBagScript.MySlots[10].bloqueado = false;
+        bagSi.MyBagScript.MySlots[10].MyCover.enabled = false;
+        bagSi.MyBagScript.MySlots[9].bloqueado = true;
+        bagSi.MyBagScript.MySlots[9].MyCover.enabled = true;
+        bagSi.MyBagScript.MySlots[11].bloqueado = false;
+        bagSi.MyBagScript.MySlots[11].MyCover.enabled = false;
+    }
+    public void SinoDesbloq()
+    {
 
     }
 
     private void Update()
     {
+        
+
         if (Input.GetKeyDown(KeyCode.J))
         {
             Bag bag = (Bag)Instantiate(items[8]);
@@ -174,6 +286,7 @@ public class InventoryScript : MonoBehaviour
 
     }
 
+    
     /// <summary>
     /// Equips a bag to the inventory
     /// </summary>
@@ -340,6 +453,16 @@ public class InventoryScript : MonoBehaviour
         }
     }
 
+    public void Close()
+    {
+        foreach (Bag bag in MyBags)
+        {
+            if (bag.MyBagScript.IsOpen)
+            {
+                bag.MyBagScript.OpenClose();
+            }
+        }
+    }
     public List<SlotScript> GetAllItems()
     {
         List<SlotScript> slots = new List<SlotScript>();

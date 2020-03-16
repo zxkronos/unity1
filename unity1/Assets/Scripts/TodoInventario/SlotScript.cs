@@ -21,6 +21,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     [SerializeField]
     private Text stackSize;
 
+    public bool bloqueado;
     /// <summary>
     /// A reference to the bag that this slot belong to
     /// </summary>
@@ -132,6 +133,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         MyItems.OnPop += new UpdateStackEvent(UpdateSlot);
         MyItems.OnPush += new UpdateStackEvent(UpdateSlot);
         MyItems.OnClear += new UpdateStackEvent(UpdateSlot);
+        bloqueado = false;
     }
 
     /// <summary>
@@ -212,7 +214,15 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
         }
         if (eventData.button == PointerEventData.InputButton.Right && HandScript.MyInstance.MyMoveable == null)//If we rightclick on the slot
         {
-            ActScript.MyAct.AddActClickDerecho(MyItem as IUseable);
+            if (bloqueado)
+            {
+                Debug.Log("Slot bloqueado");
+            }
+            else
+            {
+                ActScript.MyAct.AddActClickDerecho(MyItem as IUseable);
+            }
+            
             //UseItem();
         }else if (eventData.button == PointerEventData.InputButton.Right && HandScript.MyInstance.MyMoveable != null)
         {

@@ -24,6 +24,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     public Item item;
     public Item itemAnterior;
     public CmdMover mov;
+    public Si si;
 
     [SerializeField]
     private Text stackSize;
@@ -212,25 +213,25 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     {
         if (actUsable is CmdMover)
         {
-            CmdMover movAnterior=null;
+            CmdMover movAnterior = null;
 
             if (EditorScript.MyInstance.MyItems.Count > 0)
             {
                 //Debug.Log("hola");
-                movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count-1];
+                movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count - 1];
             }
-            
+
             mov = (CmdMover)actUsable; // cuando se genera el mov actual mov va recoger el ultimo item de la lista
-                                        //el cual es el que se agrego anteriormente porque este serta el ultimo
-           // Debug.Log("mov " + mov);
-            //Debug.Log("movAnt " + movAnterior);
+                                       //el cual es el que se agrego anteriormente porque este serta el ultimo
+                                       // Debug.Log("mov " + mov);
+                                       //Debug.Log("movAnt " + movAnterior);
             if (movAnterior != null)
             {
-               // Debug.Log("mov ant "+movAnterior.moveType);
-               // Debug.Log("mov "+mov.moveType);
+                // Debug.Log("mov ant "+movAnterior.moveType);
+                // Debug.Log("mov "+mov.moveType);
                 if (movAnterior.moveType == mov.moveType)
                 {
-                    Debug.Log("mi index "+MyIndex);
+                    //Debug.Log("mi index "+MyIndex);
                     int x = 0;
 
                     if (Int32.TryParse(EditorScript.MyInstance.inputs[EditorScript.MyInstance.MyItems.Count - 1].text, out x))
@@ -253,12 +254,45 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         }
         else if (actUsable is Si)
         {
-            
+           
+            si = (Si)actUsable;
+            if (si.siType.ToString() == "Si")
+            {
+                InventoryScript.MyInstance.SiBloquearBotones();
+                EditorScript.MyInstance.AgregarAct();
+            }
+            else if (si.siType.ToString() == "Ojo")
+            {
+                InventoryScript.MyInstance.OjoBloquearBotones();
+                EditorScript.MyInstance.AgregarAct();
+            }
+            else if (si.siType.ToString() == "TileGrass" || si.siType.ToString() == "TileSand" || si.siType.ToString() == "TileWater" || si.siType.ToString() == "TileTree")
+            {
+                InventoryScript.MyInstance.tilesDesbloqueoBotones();
+                EditorScript.MyInstance.AgregarLinea();
+            }
+            else if (si.siType.ToString() == "FinSi" )
+            {
+                InventoryScript.MyInstance.finSiDesbloq();
+                EditorScript.MyInstance.AgregarLinea();
+            }
+            else if (si.siType.ToString() == "Sino")
+            {
+                InventoryScript.MyInstance.siBloqueoInicial();
+                EditorScript.MyInstance.AgregarLinea();
+            }
+
+
+
+
+            item = (Si)actUsable;
             MiUsable = actUsable;
             
-            EditorScript.MyInstance.AgregarAct();
+            //EditorScript.MyInstance.AgregarAct();
 
             SetUseable(actUsable);
+
+
         }
 
         
@@ -275,13 +309,10 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         GameObject go = Instantiate(EditorScript.MyInstance.inputWinGO, transform) as GameObject; //se agrega linea como gameobject
         InputWinObj = go.GetComponent<InputWindow>();
         EditorScript.MyInstance.inputs.Add(InputWinObj.StackField);
-
-        // InputWinObj.transform.parent = EditorScript.MyInstance.linea.transform;
         InputWinObj.transform.SetParent(EditorScript.MyInstance.linea.transform, false);
         InputWinObj.MyIndex = EditorScript.MyInstance.linea.MyIndex;
         InputWinObj.item = item;
         //EditorScript.MyInstance.inputs[0].text = "66";
-        //InputWinObj.act = this;
         EditorScript.MyInstance.AgregarLinea();
 
         SetUseable(actUsable);

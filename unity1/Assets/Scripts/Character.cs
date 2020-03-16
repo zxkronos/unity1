@@ -11,15 +11,20 @@ public class Character : MonoBehaviour
     public Vector2 direction;
     protected Animator animator;
 
-    public Tilemap highlightMap;
+    public Tilemap highlightMapGround;
+    public Tilemap MapAgua;
+    public Tilemap MapTrees;
     [SerializeField]
     public Tile grass;
     [SerializeField]
     public Tile sand;
+    public Tile water;
+    public Tile tree;
     public Vector3 posPlayer;
     public Vector3Int posVista; //lo que ve el personaje frente
-    public Vector3 direVista;
+    public Vector2 direVista;
     public GameObject Vista;
+    public string terrenoDelante;
 
     public int dist = 33; //distancia a recorrer
     public int pasos; //pasos recorridos hasta llegar a dist
@@ -64,9 +69,10 @@ public class Character : MonoBehaviour
         choqueArbol = false;
         botonplay = BotonPlay.PlayInstance;
         //directionSpell = Vector2.down;
-        posPlayer = highlightMap.WorldToCell(Player.MyInstance.transform.position);
-        posVista = highlightMap.WorldToCell(Vista.transform.position);
+        posPlayer = highlightMapGround.WorldToCell(Player.MyInstance.transform.position);
+        posVista = highlightMapGround.WorldToCell(Vista.transform.position);
         direVista = Vista.transform.position;
+        queSeVe();
     }
 
     
@@ -119,15 +125,18 @@ public class Character : MonoBehaviour
                 {
                     mover = false;
                     botonplay._t1Paused = false;
+                    //Debug.Log("1");
+                    queSeVe();
                 }
             }
             else
             {
                 posPlayer = Player.MyInstance.transform.position;
-                posVista = highlightMap.WorldToCell(Vista.transform.position);
                 direVista = Vista.transform.position;
                 pasos = dist; //para que se detenga
-                botonplay._t1Paused = false;
+                //botonplay._t1Paused = false;
+                queSeVe();
+                //Debug.Log("2");
                 caminarAdelante = true;
                 //Debug.Log("in");
             }
@@ -137,16 +146,35 @@ public class Character : MonoBehaviour
             }
             else
             {
-                Debug.Log("inidle");
+                queSeVe();
+                Debug.Log("3");
+                //Debug.Log("inidle");
             }
         }
         else if (cambiarDir)
         {
             posPlayer = Player.MyInstance.transform.position;
-            posVista = highlightMap.WorldToCell(Vista.transform.position);
-            //direVista = Vista.transform.position;
-            //Player.MyInstance.transform.position = new Vector3(posPlayer.x+1, posPlayer.y, posPlayer.z);
-            Vista.transform.position = direVista;
+
+            if (direction == Vector2.right)
+            {
+                Vista.transform.position = posPlayer + new Vector3(2f, 0f ,0f);
+            }else if (direction == Vector2.left)
+            {
+                Vista.transform.position = posPlayer + new Vector3(-2f, 0f, 0f);
+            }
+            else if (direction == Vector2.up)
+            {
+                Vista.transform.position = posPlayer + new Vector3(0f, 2f, 0f);
+            }
+            else if (direction == Vector2.down)
+            {
+                Vista.transform.position = posPlayer + new Vector3(0f, -2f, 0f);
+            }
+            
+
+            queSeVe();
+
+                //Vista.transform.position = new Vector2
             CambiarDireccion(direction);
             cambiarDir = false;
         }
@@ -155,6 +183,7 @@ public class Character : MonoBehaviour
             direVista = Vista.transform.position;
             myRigidbody.velocity = Vector2.zero;
             ActivateLayer("IdleLayer");
+            //queSeVe();
         }
 
         /*   else if (isAttacking)
@@ -168,6 +197,40 @@ public class Character : MonoBehaviour
            }*/
 
         
+    }
+
+    public void queSeVe() {
+
+        
+       // posVista = highlightMapGround.WorldToCell(Vista.transform.position);
+        Vector3Int currentCellGround = highlightMapGround.WorldToCell(highlightMapGround.WorldToCell(Vista.transform.position));
+        Vector3Int currentCellWater = MapAgua.WorldToCell(MapAgua.WorldToCell(Vista.transform.position));
+
+        //Debug.Log(highlightMapGround.GetTile(currentCellGround).name);
+        //Debug.Log(currentCellGround);
+
+        if (highlightMapGround.GetTile(highlightMapGround.WorldToCell(Vista.transform.position)).name == grass.name)
+        {
+            terrenoDelante = "pasto";
+        }
+        else if (highlightMapGround.GetTile(highlightMapGround.WorldToCell(Vista.transform.position)).name == sand.name)
+        {
+            terrenoDelante = "tierra";
+        }
+        else if (highlightMapGround.GetTile(highlightMapGround.WorldToCell(Vista.transform.position)).name == water.name)
+        {
+            terrenoDelante = "agua";
+        }
+
+        if (MapTrees.GetTile(MapTrees.WorldToCell(Vista.transform.position)) != null)
+        {
+            if (MapTrees.GetTile(MapTrees.WorldToCell(Vista.transform.position)).name == tree.name)
+            {
+                terrenoDelante = "arbol";
+            }
+        }
+        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

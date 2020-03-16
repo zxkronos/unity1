@@ -26,6 +26,7 @@ public class BotonPlay : MonoBehaviour
     public Tile grass;
     [SerializeField]
     public Tile sand;
+    public int contSi;
 
     public float timeWaiting = 5.0f;
 
@@ -57,6 +58,7 @@ public class BotonPlay : MonoBehaviour
         posicionIncial = player.transform.position;
         posicionIncialVista = Vista.transform.position;
         threadTerminado = true;
+        contSi = 0;
        // botonplay = Transform.GetComponent<Button>(); 
     }
     void Start()
@@ -70,17 +72,20 @@ public class BotonPlay : MonoBehaviour
         
         try
         {
+            bool condicionSi = true;
+
             foreach (ActScript act in acts)
             {
-                //Debug.Log("inforach");
+                
                 item = act.item;
+                //Debug.Log(item is Si);
 
-                if (item is CmdMover)
+                if (item is CmdMover && condicionSi)
                 {
-                    
+
                     CmdMover mov = (CmdMover)item;
                     //Debug.Log("stack "+act.miStack);
-                    for (int i = 0; i< act.miStack; i++)
+                    for (int i = 0; i < act.miStack; i++)
                     {
                         if (mov.moveType.ToString() == "MoverAdelante")
                         {
@@ -125,10 +130,73 @@ public class BotonPlay : MonoBehaviour
                         }
                     }
                     //Debug.Log(mov.moveType.ToString());
-                    
+
 
                 }
+                else if (item is Si)
+                {
+                    //Debug.Log("si");
+                    Si si = (Si)item;
 
+                    if (si.siType.ToString() == "Si")
+                    {
+                        //contSi++;
+                        
+                    }
+                    else if (si.siType.ToString() == "Sino")
+                    {
+
+                    }
+                    else if (si.siType.ToString() == "Ojo")
+                    {
+
+                    }
+                    else if (si.siType.ToString() == "TileGrass")
+                    {
+                        if(player.terrenoDelante == "pasto")
+                        {
+                            condicionSi = true;
+                        }
+                        else
+                        {
+                            condicionSi = false;
+                            Debug.Log("El terreno delante no es pasto, es " + player.terrenoDelante);
+                        }
+                    }
+                    else if (si.siType.ToString() == "TileSand")
+                    {
+                        if (player.terrenoDelante == "tierra")
+                        {
+                            condicionSi = true;
+                        }
+                        else
+                        {
+                            condicionSi = false;
+                        }
+                    }
+                    else if (si.siType.ToString() == "TileTree")
+                    {
+                        if (player.terrenoDelante == "arbol")
+                        {
+                            condicionSi = true;
+                        }
+                        else
+                        {
+                            condicionSi = false;
+                        }
+                    }
+                    else if (si.siType.ToString() == "TileWater")
+                    {
+                        if (player.terrenoDelante == "agua")
+                        {
+                            condicionSi = true;
+                        }
+                        else
+                        {
+                            condicionSi = false;
+                        }
+                    }
+                }
             }
             Debug.Log("thread ejecutado correctamente");
             threadTerminado = true;

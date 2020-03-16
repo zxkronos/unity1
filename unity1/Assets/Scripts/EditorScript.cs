@@ -39,6 +39,7 @@ public class EditorScript : MonoBehaviour
 
     public LineaScript linea;
     public ActScript act;
+    public ActScript actSig;
 
     public List<LineaScript> lineas = new List<LineaScript>();
 
@@ -108,6 +109,8 @@ public class EditorScript : MonoBehaviour
 
     public void AgregarAct() //añade act horizontal es para el if por ejemplo
     {    // act es el act actual, acts es la lista de actos
+       // Debug.Log(acts);
+
         if (HandScript.MyInstance.MyMoveable != null)
         {
             items.Add((Item)HandScript.MyInstance.MyMoveable);
@@ -117,7 +120,7 @@ public class EditorScript : MonoBehaviour
             items.Add((Item)act.MiUsable);
             act.MiUsable = null;
         }
-
+        
         int IndexActualAct = act.MyIndex;
         act = Instantiate(actPrefab, transform).GetComponent<ActScript>();
         ActScript.MyAct = act;

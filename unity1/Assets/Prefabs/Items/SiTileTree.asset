@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 4a8199ee2e3ca2647a85840d50f44c7a, type: 3}
   stackSize: 0
-  titel: 
+  titel: "\xC1rbol"
   quality: 0
   price: 0
-  siType: 4
+  siType: 6

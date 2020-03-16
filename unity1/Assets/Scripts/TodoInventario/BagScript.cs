@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BagScript : MonoBehaviour, IPointerClickHandler
 {
@@ -138,7 +139,7 @@ public class BagScript : MonoBehaviour, IPointerClickHandler
     {
         //Changes the alpaha to open or closed
         canvasGroup.alpha = canvasGroup.alpha > 0 ? 0 : 1;
-
+        
         //Blocks or removes raycast blocking
         canvasGroup.blocksRaycasts = canvasGroup.blocksRaycasts == true ? false : true;
     }
