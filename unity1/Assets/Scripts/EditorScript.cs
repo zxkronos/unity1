@@ -25,6 +25,9 @@ public class EditorScript : MonoBehaviour
         }
 
     }
+
+    public int contMov; //contador de movimiento.
+
     [SerializeField] public GameObject inputWinGO;
     public TMP_InputField InputFieldStack;
 
@@ -47,6 +50,7 @@ public class EditorScript : MonoBehaviour
     public List<TMP_InputField> inputs = new List<TMP_InputField>();
     private void Awake()
     {
+        contMov = 0;
         linea = FindObjectOfType<LineaScript>();
         linea.MyIndex = 1;
         //linea.name = "a "+linea.MyIndex;

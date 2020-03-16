@@ -100,7 +100,7 @@ public class BagButton : MonoBehaviour, IPointerClickHandler
 
 
                     
-                Debug.Log(gameObject.name);
+               // Debug.Log(gameObject.name);
                 
                 //Open or close the bag
                 

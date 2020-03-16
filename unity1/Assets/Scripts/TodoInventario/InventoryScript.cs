@@ -150,96 +150,71 @@ public class InventoryScript : MonoBehaviour
     
     public void siBloqueoInicial()
     {
-        bagSi.MyBagScript.MySlots[0].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[1].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[2].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[3].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[4].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[7].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[9].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[10].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[11].MyCover.enabled = false;
-
-        bagSi.MyBagScript.MySlots[0].bloqueado = true;
-        bagSi.MyBagScript.MySlots[1].bloqueado = true;
-        bagSi.MyBagScript.MySlots[2].bloqueado = true;
-        bagSi.MyBagScript.MySlots[3].bloqueado = true;
-        bagSi.MyBagScript.MySlots[4].bloqueado = true;
-        bagSi.MyBagScript.MySlots[7].bloqueado = true;
-        bagSi.MyBagScript.MySlots[9].bloqueado = true;
-        bagSi.MyBagScript.MySlots[10].bloqueado = true;
-        bagSi.MyBagScript.MySlots[11].bloqueado = false;
+        bloqBoton(bagSi, 0, true);
+        bloqBoton(bagSi, 1, true);
+        bloqBoton(bagSi, 2, true);
+        bloqBoton(bagSi, 3, true);
+        bloqBoton(bagSi, 4, true);
+        bloqBoton(bagSi, 7, true);
+        bloqBoton(bagSi, 9, true);
+        bloqBoton(bagSi, 10, true);
+        bloqBoton(bagSi, 11, false);
+  
     }
 
     public void SiBloquearBotones()
     {
         //SiBloqBotones = true;
-        bagSi.MyBagScript.MySlots[0].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[1].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[2].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[3].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[4].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[11].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[7].MyCover.enabled = false;
-
-        bagSi.MyBagScript.MySlots[0].bloqueado = true;
-        bagSi.MyBagScript.MySlots[1].bloqueado = true;
-        bagSi.MyBagScript.MySlots[2].bloqueado = true;
-        bagSi.MyBagScript.MySlots[3].bloqueado = true;
-        bagSi.MyBagScript.MySlots[4].bloqueado = true;
-        bagSi.MyBagScript.MySlots[11].bloqueado = true;
-        bagSi.MyBagScript.MySlots[7].bloqueado = false;
+        bloqBoton(bagSi, 0, true);
+        bloqBoton(bagSi, 1, true);
+        bloqBoton(bagSi, 2, true);
+        bloqBoton(bagSi, 3, true);
+        bloqBoton(bagSi, 4, true);
+        bloqBoton(bagSi, 11, true);
+        bloqBoton(bagSi, 7, false);
+       
         //placeinspecific:
         //bags[bagIndex].MyBagScript.MySlots[slotIndex].AddItem(item);
         //bagSi.MyBagScript.MySlots[0].MyCover.enabled = true;
     }
     public void OjoBloquearBotones()
     {
-        bagSi.MyBagScript.MySlots[0].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[1].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[2].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[3].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[4].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[7].MyCover.enabled = true;
-
-        bagSi.MyBagScript.MySlots[0].bloqueado = false;
-        bagSi.MyBagScript.MySlots[1].bloqueado = false;
-        bagSi.MyBagScript.MySlots[2].bloqueado = false;
-        bagSi.MyBagScript.MySlots[3].bloqueado = false;
-        bagSi.MyBagScript.MySlots[4].bloqueado = false;
-        bagSi.MyBagScript.MySlots[7].bloqueado = true;
+        bloqBoton(bagSi, 0, false);
+        bloqBoton(bagSi, 1, false);
+        bloqBoton(bagSi, 2, false);
+        bloqBoton(bagSi, 3, false);
+        bloqBoton(bagSi, 4, false);
+        bloqBoton(bagSi, 7, true);
+       
     }
     public void tilesDesbloqueoBotones()
     {
-        /*bagSi.MyBagScript.MySlots[7].bloqueado = false;
-        bagSi.MyBagScript.MySlots[7].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[11].bloqueado = false;
-        bagSi.MyBagScript.MySlots[11].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[9].bloqueado = false;
-        bagSi.MyBagScript.MySlots[9].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[10].bloqueado = false;
-        bagSi.MyBagScript.MySlots[10].MyCover.enabled = false;*/
+        
 
         siBloqueoInicial();
-        bagSi.MyBagScript.MySlots[9].bloqueado = false;
-        bagSi.MyBagScript.MySlots[9].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[11].bloqueado = true;
-        bagSi.MyBagScript.MySlots[11].MyCover.enabled = true;
+        bloqBoton(bagSi, 9, false);
+        bloqBoton(bagSi, 11, true);
 
     }
 
     public void finSiDesbloq()
     {
-        bagSi.MyBagScript.MySlots[10].bloqueado = false;
-        bagSi.MyBagScript.MySlots[10].MyCover.enabled = false;
-        bagSi.MyBagScript.MySlots[9].bloqueado = true;
-        bagSi.MyBagScript.MySlots[9].MyCover.enabled = true;
-        bagSi.MyBagScript.MySlots[11].bloqueado = false;
-        bagSi.MyBagScript.MySlots[11].MyCover.enabled = false;
+        bloqBoton(bagSi, 10, false);
+        bloqBoton(bagSi, 9, true);
+        bloqBoton(bagSi, 11, false);
+        
     }
     public void SinoDesbloq()
     {
+        bloqBoton(bagSi, 11, true);
+        bloqBoton(bagSi, 9, false);
+       
+    }
 
+    public void bloqBoton(Bag bolsa, int numSlot, bool bloq)
+    {
+        bolsa.MyBagScript.MySlots[numSlot].bloqueado = bloq;
+        bolsa.MyBagScript.MySlots[numSlot].MyCover.enabled = bloq;
     }
 
     private void Update()

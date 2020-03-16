@@ -25,6 +25,9 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     public Item itemAnterior;
     public CmdMover mov;
     public Si si;
+    
+
+
 
     [SerializeField]
     private Text stackSize;
@@ -96,7 +99,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
     private void Awake()
     {
-       
+        
 
     }
 
@@ -209,17 +212,26 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         }
     }
 
+    
     public void AddActClickDerecho(IUseable actUsable)
     {
+        
+
         if (actUsable is CmdMover)
         {
             CmdMover movAnterior = null;
-
-            if (EditorScript.MyInstance.MyItems.Count > 0)
+             
+            if (EditorScript.MyInstance.contMov > 0)
             {
-                //Debug.Log("hola");
-                movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count - 1];
+                
+                if (EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov- 1] is CmdMover)
+                {
+                   
+                    movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov -1];
+                    
+                }  
             }
+            
 
             mov = (CmdMover)actUsable; // cuando se genera el mov actual mov va recoger el ultimo item de la lista
                                        //el cual es el que se agrego anteriormente porque este serta el ultimo
@@ -227,18 +239,21 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                                        //Debug.Log("movAnt " + movAnterior);
             if (movAnterior != null)
             {
-                // Debug.Log("mov ant "+movAnterior.moveType);
-                // Debug.Log("mov "+mov.moveType);
-                if (movAnterior.moveType == mov.moveType)
+                //Debug.Log("mov ant "+movAnterior.moveType);
+                //Debug.Log("mov "+mov.moveType);
+                Debug.Log(EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov - 1]);
+                Debug.Log(EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov - 1]);
+                if (movAnterior.moveType == mov.moveType && EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov -1] is CmdMover)
                 {
-                    //Debug.Log("mi index "+MyIndex);
+                    Debug.Log("mi index "+MyIndex);
                     int x = 0;
-
-                    if (Int32.TryParse(EditorScript.MyInstance.inputs[EditorScript.MyInstance.MyItems.Count - 1].text, out x))
+                    
+                    if (Int32.TryParse(EditorScript.MyInstance.inputs[EditorScript.MyInstance.contMov -1].text, out x))
                     {
                         x = x + 1;
-                        EditorScript.MyInstance.inputs[EditorScript.MyInstance.MyItems.Count - 1].text = x.ToString();
-                        EditorScript.MyInstance.acts[EditorScript.MyInstance.MyItems.Count - 1].miStack = x;
+                        EditorScript.MyInstance.inputs[EditorScript.MyInstance.contMov -1].text = x.ToString();
+                        EditorScript.MyInstance.acts[EditorScript.MyInstance.contMov -1].miStack = x;
+                        Debug.Log("1");
                     }
                 }
                 else
@@ -250,7 +265,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             {
                 addActMov(actUsable);
             }
-
+            EditorScript.MyInstance.contMov++;//cuenta la cantidad de comandos mov que instancia el usuario
         }
         else if (actUsable is Si)
         {
@@ -279,6 +294,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             else if (si.siType.ToString() == "Sino")
             {
                 InventoryScript.MyInstance.siBloqueoInicial();
+                InventoryScript.MyInstance.SinoDesbloq();
                 EditorScript.MyInstance.AgregarLinea();
             }
 
@@ -287,9 +303,9 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
             item = (Si)actUsable;
             MiUsable = actUsable;
-            
-            //EditorScript.MyInstance.AgregarAct();
 
+            //EditorScript.MyInstance.AgregarAct();
+            EditorScript.MyInstance.MyItems.Add(item);
             SetUseable(actUsable);
 
 
