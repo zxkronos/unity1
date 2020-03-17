@@ -1137,12 +1137,12 @@ PrefabInstance:
     - target: {fileID: 224659958785018096, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -37
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 224659958785018096, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 83.82
+      value: 48
       objectReference: {fileID: 0}
     - target: {fileID: 224659958785018096, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
@@ -1187,17 +1187,17 @@ PrefabInstance:
     - target: {fileID: 224659958785018096, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224659958785018096, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114655313428224734, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
       propertyPath: items.Array.size
-      value: 25
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 114655313428224734, guid: b094b4490ad64384c9b8836953314da1,
         type: 3}
@@ -1383,6 +1383,12 @@ PrefabInstance:
       propertyPath: items.Array.data[24]
       value: 
       objectReference: {fileID: 11400000, guid: 3beee98fd1d62184396a58c07f109c06,
+        type: 2}
+    - target: {fileID: 114655313428224734, guid: b094b4490ad64384c9b8836953314da1,
+        type: 3}
+      propertyPath: items.Array.data[25]
+      value: 
+      objectReference: {fileID: 11400000, guid: e7a4479b5fd33a743a7e3d8a46412525,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b094b4490ad64384c9b8836953314da1, type: 3}
@@ -2262,6 +2268,8 @@ MonoBehaviour:
   linea: {fileID: 0}
   act: {fileID: 0}
   actSig: {fileID: 0}
+  siCompleto: 0
+  sinoCompleto: 0
   lineas: []
   acts: []
   inputs: []

@@ -75,6 +75,22 @@ public class BotonPlay : MonoBehaviour
             if (EditorScript.MyInstance.siCompleto == false)
             {
                 Debug.Log("Hay un si incompleto");
+                foreach (LineaScript line in EditorScript.MyInstance.lineas )
+                {
+                    foreach (ActScript acto in line.actosLinea)
+                    {
+                        if(acto.item is Si)
+                        {
+                           // if ((Si)acto.item.)
+                        }
+                    }
+                }
+
+                threadTerminado = true;
+            }
+            else if(EditorScript.MyInstance.sinoCompleto == false)
+            {
+                Debug.Log("Hay un sino incompleto");
                 threadTerminado = true;
             }
             else
@@ -240,6 +256,15 @@ public class BotonPlay : MonoBehaviour
         items = EditorScript.MyInstance.MyItems;
         acts = EditorScript.MyInstance.acts;
         //Debug
+
+        foreach(LineaScript line in EditorScript.MyInstance.lineas)
+        {
+            foreach(ActScript acto in line.actosLinea)
+            {
+                Debug.Log("En la linea " + line.MyIndex+" hay estos item");
+                Debug.Log(acto.item.ToString());
+            }
+        }
 
         //ui.setbotonplayEnable(false);
 

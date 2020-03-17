@@ -163,7 +163,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     ///
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Left)
+      /*  if (eventData.button == PointerEventData.InputButton.Left)
         {
             //si handscript no es nulo tiene un item y es usable
             if (HandScript.MyInstance.MyMoveable != null && HandScript.MyInstance.MyMoveable is IUseable)
@@ -197,7 +197,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                     else if (mov.MyTitle.Equals("Mover"))
                     {
                         EditorScript.MyInstance.AgregarAct();
-                    }*/
+                    }
                 }
 
                 SetUseable(HandScript.MyInstance.MyMoveable as IUseable);
@@ -209,7 +209,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             {
                 //HandScript.MyInstance.TakeMoveable(MyItem as IMoveable);
             }
-        }
+        }*/
     }
 
     
@@ -293,8 +293,15 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
                 InventoryScript.MyInstance.finSiDesbloq();
                 EditorScript.MyInstance.AgregarLinea();
             }
+            else if (si.siType.ToString() == "FinSino")
+            {
+                EditorScript.MyInstance.sinoCompleto = true;
+                InventoryScript.MyInstance.finSinoDesbloq();
+                EditorScript.MyInstance.AgregarLinea();
+            }
             else if (si.siType.ToString() == "Sino")
             {
+                EditorScript.MyInstance.sinoCompleto = false;
                 InventoryScript.MyInstance.siBloqueoInicial();
                 InventoryScript.MyInstance.SinoDesbloq();
                 EditorScript.MyInstance.AgregarLinea();

@@ -44,6 +44,7 @@ public class EditorScript : MonoBehaviour
     public ActScript act;
     public ActScript actSig;
     public bool siCompleto; // para validar si los codigos si tienen fin
+    public bool sinoCompleto; // para validar si los codigos si tienen fin
 
     public List<LineaScript> lineas = new List<LineaScript>();
 
@@ -58,6 +59,7 @@ public class EditorScript : MonoBehaviour
         lineas.Add(linea);
         // LineaScript linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>();
         siCompleto = true;
+        sinoCompleto = true;
         // Instantiate(lineaPrefab, transform).name = "hola";
         if (act == null)
         {
@@ -96,6 +98,7 @@ public class EditorScript : MonoBehaviour
             act.MiUsable = null;
         }
 
+        linea.actosLinea.Add(act);
         int IndexActualLinea = linea.MyIndex; //numero de linea de codigo
         linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>(); //se agrega linea como gameobject
         linea.MyIndex = IndexActualLinea + 1; // num de linea de codigo
@@ -131,6 +134,7 @@ public class EditorScript : MonoBehaviour
         ActScript.MyAct = act;
         act.MyIndex = IndexActualAct + 1;
         act.transform.parent = linea.transform;
+        linea.actosLinea.Add(act);
         act.transform.localScale = new Vector3(0.5f, 0.5f, 1f) ;
         acts.Add(act);
     }

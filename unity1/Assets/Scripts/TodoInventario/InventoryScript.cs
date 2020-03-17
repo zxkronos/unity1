@@ -138,8 +138,9 @@ public class InventoryScript : MonoBehaviour
         AgregarItem(bagSi, (Si)Instantiate(items[21]));//Tiles
         AgregarItem(bagSi, (Si)Instantiate(items[22]));//Tiles
         bagSi.MyBagScript.MySlots[11].AddItem((Si)Instantiate(items[17])); //item 17 si
-        bagSi.MyBagScript.MySlots[10].AddItem((Si)Instantiate(items[23])); //item 23 sino
-        bagSi.MyBagScript.MySlots[9].AddItem((Si)Instantiate(items[24])); //item 24 fin si
+        bagSi.MyBagScript.MySlots[9].AddItem((Si)Instantiate(items[23])); //item 23 sino
+        bagSi.MyBagScript.MySlots[10].AddItem((Si)Instantiate(items[24])); //item 24 fin si
+        bagSi.MyBagScript.MySlots[8].AddItem((Si)Instantiate(items[25])); //item 25 fin sino
         bagSi.MyBagScript.MySlots[7].AddItem((Si)Instantiate(items[18])); //item 18 ojo
 
         //bloqueos de botones
@@ -158,6 +159,7 @@ public class InventoryScript : MonoBehaviour
         bloqBoton(bagSi, 7, true);
         bloqBoton(bagSi, 9, true);
         bloqBoton(bagSi, 10, true);
+        bloqBoton(bagSi, 8, true);
         bloqBoton(bagSi, 11, false);
   
     }
@@ -171,6 +173,8 @@ public class InventoryScript : MonoBehaviour
         bloqBoton(bagSi, 3, true);
         bloqBoton(bagSi, 4, true);
         bloqBoton(bagSi, 11, true);
+        bloqBoton(bagSi, 8, true);
+        bloqBoton(bagSi, 9, true);
         bloqBoton(bagSi, 7, false);
        
         //placeinspecific:
@@ -192,22 +196,29 @@ public class InventoryScript : MonoBehaviour
         
 
         siBloqueoInicial();
-        bloqBoton(bagSi, 9, false);
+        bloqBoton(bagSi, 10, false);
         bloqBoton(bagSi, 11, true);
 
     }
 
     public void finSiDesbloq()
     {
-        bloqBoton(bagSi, 10, false);
-        bloqBoton(bagSi, 9, true);
+        bloqBoton(bagSi, 9, false);
+        bloqBoton(bagSi, 8, false);
+        bloqBoton(bagSi, 10, true);
         bloqBoton(bagSi, 11, false);
         
     }
+    public void finSinoDesbloq()
+    {
+        siBloqueoInicial();
+
+    }
+
     public void SinoDesbloq()
     {
         bloqBoton(bagSi, 11, true);
-        bloqBoton(bagSi, 9, false);
+        bloqBoton(bagSi, 8, false);
        
     }
 
