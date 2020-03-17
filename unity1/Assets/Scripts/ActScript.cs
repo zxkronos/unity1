@@ -125,7 +125,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         MyButton = GetComponent<Button>();
         MyButton.onClick.AddListener(OnClick);
         InventoryScript.MyInstance.itemCountChangedEvent += new ItemCountChanged(UpdateItemCount);
-
+        
         // MyAct = new ActScript();
         
 
@@ -219,41 +219,40 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
 
         if (actUsable is CmdMover)
         {
-            CmdMover movAnterior = null;
-             
-            if (EditorScript.MyInstance.contMov > 0)
-            {
-                
-                if (EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov- 1] is CmdMover)
-                {
-                   
-                    movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov -1];
-                    
-                }  
-            }
+
             
 
+            CmdMover movAnterior = null;
+             
+            if (EditorScript.MyInstance.MyItems.Count > 0)
+            {
+                if (EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count - 1] is CmdMover)
+                {
+                    movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count - 1];
+                }
+                else
+                {
+                    movAnterior = null;
+                }
+            }
             mov = (CmdMover)actUsable; // cuando se genera el mov actual mov va recoger el ultimo item de la lista
                                        //el cual es el que se agrego anteriormente porque este serta el ultimo
                                        // Debug.Log("mov " + mov);
                                        //Debug.Log("movAnt " + movAnterior);
             if (movAnterior != null)
             {
-                //Debug.Log("mov ant "+movAnterior.moveType);
-                //Debug.Log("mov "+mov.moveType);
-                Debug.Log(EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov - 1]);
-                Debug.Log(EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov - 1]);
-                if (movAnterior.moveType == mov.moveType && EditorScript.MyInstance.MyItems[EditorScript.MyInstance.contMov -1] is CmdMover)
+
+                if (movAnterior.moveType == mov.moveType && EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count-1] is CmdMover)
                 {
-                    Debug.Log("mi index "+MyIndex);
+                    //Debug.Log("mi index "+MyIndex);
                     int x = 0;
                     
-                    if (Int32.TryParse(EditorScript.MyInstance.inputs[EditorScript.MyInstance.contMov -1].text, out x))
+                    if (Int32.TryParse(EditorScript.MyInstance.inputs[EditorScript.MyInstance.inputs.Count - 1].text, out x))
                     {
                         x = x + 1;
-                        EditorScript.MyInstance.inputs[EditorScript.MyInstance.contMov -1].text = x.ToString();
-                        EditorScript.MyInstance.acts[EditorScript.MyInstance.contMov -1].miStack = x;
-                        Debug.Log("1");
+                        EditorScript.MyInstance.inputs[EditorScript.MyInstance.inputs.Count - 1].text = x.ToString();
+                        EditorScript.MyInstance.acts[EditorScript.MyInstance.MyItems.Count - 1].miStack = x;
+                        //Debug.Log("1");
                     }
                 }
                 else
@@ -271,8 +270,10 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
         {
            
             si = (Si)actUsable;
+
             if (si.siType.ToString() == "Si")
             {
+                EditorScript.MyInstance.siCompleto = false;
                 InventoryScript.MyInstance.SiBloquearBotones();
                 EditorScript.MyInstance.AgregarAct();
             }
@@ -288,6 +289,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             }
             else if (si.siType.ToString() == "FinSi" )
             {
+                EditorScript.MyInstance.siCompleto = true;
                 InventoryScript.MyInstance.finSiDesbloq();
                 EditorScript.MyInstance.AgregarLinea();
             }

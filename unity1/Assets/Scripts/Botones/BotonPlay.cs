@@ -72,146 +72,154 @@ public class BotonPlay : MonoBehaviour
         
         try
         {
-            bool condicionSi = true;
-
-            foreach (ActScript act in acts)
+            if (EditorScript.MyInstance.siCompleto == false)
             {
-                
-                item = act.item;
-                //Debug.Log(item is Si);
-
-                if (item is Si)
-                {
-                    //Debug.Log("si");
-                    Si si = (Si)item;
-
-                    if (si.siType.ToString() == "Si")
-                    {
-                        //contSi++;
-
-                    }
-                    else if (si.siType.ToString() == "Sino")
-                    {
-
-                    }
-                    else if (si.siType.ToString() == "Ojo")
-                    {
-
-                    }
-                    else if (si.siType.ToString() == "TileGrass")
-                    {
-                        if (player.terrenoDelante == "pasto")
-                        {
-                            condicionSi = true;
-                        }
-                        else
-                        {
-                            condicionSi = false;
-                            Debug.Log("El terreno delante no es pasto, es " + player.terrenoDelante);
-                        }
-                    }
-                    else if (si.siType.ToString() == "TileSand")
-                    {
-                        if (player.terrenoDelante == "tierra")
-                        {
-                            condicionSi = true;
-                        }
-                        else
-                        {
-                            condicionSi = false;
-                        }
-                    }
-                    else if (si.siType.ToString() == "TileTree")
-                    {
-                        if (player.terrenoDelante == "arbol")
-                        {
-                            condicionSi = true;
-                        }
-                        else
-                        {
-                            condicionSi = false;
-                        }
-                    }
-                    else if (si.siType.ToString() == "TileWater")
-                    {
-                        if (player.terrenoDelante == "agua")
-                        {
-                            condicionSi = true;
-                        }
-                        else
-                        {
-                            condicionSi = false;
-                        }
-                    }
-                    else if (si.siType.ToString() == "FinSi")
-                    {
-                        condicionSi = true; //para que siga avanzando las instrucciones despues del finsi
-                    }
-                }
-                else if (item is CmdMover && condicionSi)
-                {
-
-                    CmdMover mov = (CmdMover)item;
-                    //Debug.Log("stack "+act.miStack);
-                    for (int i = 0; i < act.miStack; i++)
-                    {
-                        if (mov.moveType.ToString() == "MoverAdelante")
-                        {
-                            //Debug.Log("hola cmdmover " + item.MyTitle);
-                            _t1Paused = false;
-                            player.moverAdelante();
-                            //Debug.Log("oli " + item.MyTitle);
-                            Thread.Sleep(1000);
-                            /*while (_t1Paused)
-                            {
-                            }*/
-
-                        }
-                        else if (mov.moveType.ToString() == "GirarDerecha")
-                        {
-                            //_t1Paused = true;
-                            player.GirarDerecha();
-                            //Debug.Log("oli " + item.MyTitle);
-                            Thread.Sleep(500);
-
-                        }
-                        else if (mov.moveType.ToString() == "GirarIzquierda")
-                        {
-                            //Debug.Log("in");
-                            //_t1Paused = true;
-                            player.GirarIzquierda();
-
-
-                            Thread.Sleep(500);
-                        }
-                        else if (mov.moveType.ToString() == "MoverAtras")
-                        {
-                            _t1Paused = false;
-                            player.moverAtras();
-                            //Debug.Log("oli " + item.MyTitle);
-                            Thread.Sleep(1000);
-                            /*  while (_t1Paused)
-                              {
-                              }*/
-
-
-                        }
-                    }
-                    //Debug.Log(mov.moveType.ToString());
-
-
-                }
-                
+                Debug.Log("Hay un si incompleto");
+                threadTerminado = true;
             }
-            Debug.Log("thread ejecutado correctamente");
-            threadTerminado = true;
-        }
+            else
+            {
+                bool condicionSi = true;
+
+                foreach (ActScript act in acts)
+                {
+
+                    item = act.item;
+                    //Debug.Log(item is Si);
+
+                    if (item is Si)
+                    {
+                        //Debug.Log("si");
+                        Si si = (Si)item;
+
+                        if (si.siType.ToString() == "Si")
+                        {
+                            //contSi++;
+
+                        }
+                        else if (si.siType.ToString() == "Sino")
+                        {
+
+                        }
+                        else if (si.siType.ToString() == "Ojo")
+                        {
+
+                        }
+                        else if (si.siType.ToString() == "TileGrass")
+                        {
+                            if (player.terrenoDelante == "pasto")
+                            {
+                                condicionSi = true;
+                            }
+                            else
+                            {
+                                condicionSi = false;
+                                Debug.Log("El terreno delante no es pasto, es " + player.terrenoDelante);
+                            }
+                        }
+                        else if (si.siType.ToString() == "TileSand")
+                        {
+                            if (player.terrenoDelante == "tierra")
+                            {
+                                condicionSi = true;
+                            }
+                            else
+                            {
+                                condicionSi = false;
+                            }
+                        }
+                        else if (si.siType.ToString() == "TileTree")
+                        {
+                            if (player.terrenoDelante == "arbol")
+                            {
+                                condicionSi = true;
+                            }
+                            else
+                            {
+                                condicionSi = false;
+                            }
+                        }
+                        else if (si.siType.ToString() == "TileWater")
+                        {
+                            if (player.terrenoDelante == "agua")
+                            {
+                                condicionSi = true;
+                            }
+                            else
+                            {
+                                condicionSi = false;
+                            }
+                        }
+                        else if (si.siType.ToString() == "FinSi")
+                        {
+                            condicionSi = true; //para que siga avanzando las instrucciones despues del finsi
+                        }
+                    }
+                    else if (item is CmdMover && condicionSi)
+                    {
+
+                        CmdMover mov = (CmdMover)item;
+                        //Debug.Log("stack "+act.miStack);
+                        for (int i = 0; i < act.miStack; i++)
+                        {
+                            if (mov.moveType.ToString() == "MoverAdelante")
+                            {
+                                //Debug.Log("hola cmdmover " + item.MyTitle);
+                                _t1Paused = false;
+                                player.moverAdelante();
+                                //Debug.Log("oli " + item.MyTitle);
+                                Thread.Sleep(1000);
+                                /*while (_t1Paused)
+                                {
+                                }*/
+
+                            }
+                            else if (mov.moveType.ToString() == "GirarDerecha")
+                            {
+                                //_t1Paused = true;
+                                player.GirarDerecha();
+                                //Debug.Log("oli " + item.MyTitle);
+                                Thread.Sleep(500);
+
+                            }
+                            else if (mov.moveType.ToString() == "GirarIzquierda")
+                            {
+                                //Debug.Log("in");
+                                //_t1Paused = true;
+                                player.GirarIzquierda();
+
+
+                                Thread.Sleep(500);
+                            }
+                            else if (mov.moveType.ToString() == "MoverAtras")
+                            {
+                                _t1Paused = false;
+                                player.moverAtras();
+                                //Debug.Log("oli " + item.MyTitle);
+                                Thread.Sleep(1000);
+                                /*  while (_t1Paused)
+                                  {
+                                  }*/
+
+
+                            }
+                        }
+                        //Debug.Log(mov.moveType.ToString());
+
+
+                    }
+
+                }
+                Debug.Log("thread ejecutado correctamente");
+                threadTerminado = true;
+            }//fin else
+            }
         catch (ThreadAbortException ex)
         {
             Debug.Log("Thread es abortado " + ex.ExceptionState);
         }
-
     }
+    
    
     public void posicionInicial()
     {
@@ -228,18 +236,7 @@ public class BotonPlay : MonoBehaviour
 
     public void Play()
     {
-        
-        //Debug.Log(highlightMap.);
-       /* if (highlightMap.GetTile(currentCell) == grass)
-        {
-            Debug.Log("estoy en el pasto");
-        }
-        else if (highlightMap.GetTile(currentCell) == sand)
-        {
-            Debug.Log("estoy en la tierra");
-        }*/
-        //Debug.Log(highlightMap.tag);
-        //Debug.Log("current cell " + currentCell);
+
         items = EditorScript.MyInstance.MyItems;
         acts = EditorScript.MyInstance.acts;
         //Debug

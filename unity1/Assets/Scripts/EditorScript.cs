@@ -43,6 +43,7 @@ public class EditorScript : MonoBehaviour
     public LineaScript linea;
     public ActScript act;
     public ActScript actSig;
+    public bool siCompleto; // para validar si los codigos si tienen fin
 
     public List<LineaScript> lineas = new List<LineaScript>();
 
@@ -56,7 +57,7 @@ public class EditorScript : MonoBehaviour
         //linea.name = "a "+linea.MyIndex;
         lineas.Add(linea);
         // LineaScript linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>();
-
+        siCompleto = true;
         // Instantiate(lineaPrefab, transform).name = "hola";
         if (act == null)
         {

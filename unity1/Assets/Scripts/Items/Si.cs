@@ -9,7 +9,7 @@ public class Si : Item, IUseable
 {
     [SerializeField]
     public SiType siType;
-
+    
     public void Use()
     {
 
