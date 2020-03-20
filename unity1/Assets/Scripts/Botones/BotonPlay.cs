@@ -72,25 +72,82 @@ public class BotonPlay : MonoBehaviour
         
         try
         {
-            if (EditorScript.MyInstance.siCompleto == false)
+
+            if (EditorScript.MyInstance.siCompleto == false || EditorScript.MyInstance.sinoCompleto == false)
             {
-                Debug.Log("Hay un si incompleto");
-                foreach (LineaScript line in EditorScript.MyInstance.lineas )
+                bool siFull = true;
+                bool sinoFull = true;
+                int posicion = 0;
+                int contSi = 0; //Si la cuenta llega hasta 3 está completo.
+                bool faltaTile = false;
+
+                //se analizan las lineas y bloques para buscar donde está incompleto
+                for (int i = 0; i < EditorScript.MyInstance.lineas.Count; i++ )
                 {
-                    foreach (ActScript acto in line.actosLinea)
+                    foreach (ActScript acto in EditorScript.MyInstance.lineas[i].actosLinea)
                     {
                         if(acto.item is Si)
                         {
-                           // if ((Si)acto.item.)
+                            
+                            Si siaux = (Si)acto.item;
+                            //Debug.Log(siaux.siType.ToString());
+                            if (siaux.siType.ToString() == "Si")
+                            { 
+                                siFull = false;
+                                posicion = i;
+                                contSi++;
+                            }
+                            else if (siaux.siType.ToString() == "Ojo")
+                            {
+                                contSi ++;
+                                faltaTile = true;
+                            }
+                            else if (siaux.siType.ToString() == "TileGrass" || siaux.siType.ToString() == "TileSand" || siaux.siType.ToString() == "TileTree" || siaux.siType.ToString() == "TileWater")
+                            {
+                                faltaTile = false;
+                                contSi ++;
+                            }
+                            else if (siaux.siType.ToString()=="FinSi")
+                            {
+                                siFull = true;
+                                contSi = 0;
+                            }
+                            else if (siaux.siType.ToString() == "Sino")
+                            {
+                                sinoFull = false;
+                                posicion = i;
+                            }
+                            else if (siaux.siType.ToString() == "FinSino")
+                            {
+                                sinoFull = true;
+                            }
+
+                            // if ((Si)acto.item.)
                         }
+                       /* else if(acto.item is CmdMover){
+                            CmdMover mov= (CmdMover)acto.item;
+                            Debug.Log(mov.moveType.ToString());
+                        }*/
                     }
                 }
 
-                threadTerminado = true;
-            }
-            else if(EditorScript.MyInstance.sinoCompleto == false)
-            {
-                Debug.Log("Hay un sino incompleto");
+                if (contSi == 1)
+                {
+                    Debug.Log("Falta condición en la línea " + (posicion + 1));
+                }
+                else if (contSi == 2 && faltaTile)
+                {
+                    Debug.Log("Falta código de terreno en la línea " + (posicion + 1));
+                }
+                else if (siFull == false)
+                {
+                    Debug.Log("Falta cerrar el Si de la línea "+(posicion+1));
+                }
+                else if(sinoFull == false)
+                {
+                    Debug.Log("Falta cerrar el Sino de la línea " + (posicion + 1));
+                }
+
                 threadTerminado = true;
             }
             else
@@ -257,14 +314,7 @@ public class BotonPlay : MonoBehaviour
         acts = EditorScript.MyInstance.acts;
         //Debug
 
-        foreach(LineaScript line in EditorScript.MyInstance.lineas)
-        {
-            foreach(ActScript acto in line.actosLinea)
-            {
-                Debug.Log("En la linea " + line.MyIndex+" hay estos item");
-                Debug.Log(acto.item.ToString());
-            }
-        }
+       
 
         //ui.setbotonplayEnable(false);
 

@@ -128,13 +128,13 @@ public class EditorScript : MonoBehaviour
             items.Add((Item)act.MiUsable);
             act.MiUsable = null;
         }
-        
+        linea.actosLinea.Add(act);
         int IndexActualAct = act.MyIndex;
         act = Instantiate(actPrefab, transform).GetComponent<ActScript>();
         ActScript.MyAct = act;
         act.MyIndex = IndexActualAct + 1;
         act.transform.parent = linea.transform;
-        linea.actosLinea.Add(act);
+        
         act.transform.localScale = new Vector3(0.5f, 0.5f, 1f) ;
         acts.Add(act);
     }
