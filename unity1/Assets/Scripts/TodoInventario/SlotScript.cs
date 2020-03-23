@@ -241,7 +241,7 @@ public class SlotScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoin
     {
         MyItems.Push(item);
         icon.sprite = item.MyIcon;
-        icon.color = Color.white;
+        icon.color = InventoryScript.MyInstance.colorItems;
         MyCover.enabled = false;
         item.MySlot = this;
         return true;

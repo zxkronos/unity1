@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f649a8ee14d34424faeb2f5e3a476251, type: 3}
   m_Name: SiOjo
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 8a4a9528616ed8e4d9a92f5c224debb3, type: 3}
+  icon: {fileID: 21300000, guid: a8aa5652515c7424a8110a67f47e43dd, type: 3}
   stackSize: 0
   titel: 
   quality: 0
   price: 0
   siType: 4
+  siCompleto: 0

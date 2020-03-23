@@ -13,6 +13,7 @@ public class InventoryScript : MonoBehaviour
 
     public Bag bagSi;
     public Bag bagMov;
+    public Color colorItems;
 
     public static InventoryScript MyInstance
     {

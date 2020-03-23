@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f649a8ee14d34424faeb2f5e3a476251, type: 3}
   m_Name: SiFinSino
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: e06f01b221346ba419a728d1d21842bd, type: 3}
+  icon: {fileID: 21300000, guid: 60a2d02508fc91f428288cf32bf3cfd7, type: 3}
   stackSize: 0
   titel: Fin sino
   quality: 0
   price: 0
   siType: 3
+  siCompleto: 0

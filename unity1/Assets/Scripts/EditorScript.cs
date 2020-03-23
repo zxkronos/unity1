@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EditorScript : MonoBehaviour
 {
-    
+
 
     //For debugging
     [SerializeField]
@@ -29,6 +30,8 @@ public class EditorScript : MonoBehaviour
     public int contMov; //contador de movimiento.
 
     [SerializeField] public GameObject inputWinGO;
+    public GameObject detalleLinea;
+    private bool activarError;
     public TMP_InputField InputFieldStack;
 
     [SerializeField]
@@ -38,7 +41,16 @@ public class EditorScript : MonoBehaviour
     private GameObject actPrefab;
 
     [SerializeField]
+    private GameObject ContentEditor;
+
+    [SerializeField]
+    private GameObject scrollBar;
+
+    [SerializeField]
     public int CantLineas;
+
+    public DetalleLinea detalle;
+    public GameObject numLineaGO;
 
     public LineaScript linea;
     public ActScript act;
@@ -66,10 +78,20 @@ public class EditorScript : MonoBehaviour
             act = FindObjectOfType<ActScript>(); //primer Act por defecto
             ActScript.MyAct = act;
             act.MyIndex = 1;
-            acts.Add(act);    
+            acts.Add(act);
         }
 
+        detalle = FindObjectOfType<DetalleLinea>();
+        detalle.myIndex = 1;
+        var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
+        color.a = 0f;
+        detalle.transform.GetChild(1).GetComponent<Image>().color = color;
+        numLineaGO = GameObject.Find("NumLinea");
+        activarError = false;
+        
     }
+
+
 
     public static EditorScript MyInstance
     {
@@ -84,24 +106,103 @@ public class EditorScript : MonoBehaviour
         }
     }
 
+    public void subirAct(int posicion)
+    {
+        if (posicion > 1 && posicion != lineas.Count) //la linea 1 no puede subir mas
+        {
+            lineas[posicion - 1].transform.SetSiblingIndex(posicion - 2);
+            LineaScript lineAux = lineas[posicion - 2]; //linea que esta arriba de la que quiero subir
+            //Debug.Log(lineas[posicion - 1].transform.GetSiblingIndex());
+            lineas[posicion - 2] = lineas[posicion - 1];
+            lineas[posicion - 1] = lineAux;
+        }
+    }
+    public void bajarAct(int posicion)
+    {
+        if (posicion != lineas.Count - 1 && posicion != lineas.Count) //la ultima y penultima no pueden bajar
+        {
+            lineas[posicion - 1].transform.SetSiblingIndex(posicion); //se le pone el index del hermano de delante
+            LineaScript lineAux = lineas[posicion]; //linea que esta arriba de la que quiero subir
+            Debug.Log(lineas[posicion - 1].transform.GetSiblingIndex());
+            lineas[posicion] = lineas[posicion - 1];
+            lineas[posicion - 1] = lineAux;
+
+        }
+    }
+
+    private int numLine;
+    public void activarErrorLinea(int numLinea)
+    {
+        activarError = true;
+        numLine = numLinea;
+    }
+
+    public void desactivarErroresLineas()
+    {
+        activarError = true;
+        numLine = -1;
+    }
+
+    void Update()
+    {
+        if (activarError) //activa y desactiva errores
+        {
+            if(numLine == -1)
+            {
+                for (int i = 0; i < lineas.Count; i++)
+                {
+                    detalle = numLineaGO.transform.GetChild(numLine).GetComponent<DetalleLinea>();
+                    var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
+                    color.a = 0f;
+                    detalle.transform.GetChild(1).GetComponent<Image>().color = color;
+                }
+                activarError = false;
+            }
+            else
+            {
+                detalle = numLineaGO.transform.GetChild(numLine).GetComponent<DetalleLinea>();
+                var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
+                color.a = 1f;
+                detalle.transform.GetChild(1).GetComponent<Image>().color = color;
+                activarError = false;
+            }
+            
+        }
+
+    }
 
     public void AgregarLinea() //añade linea y act
     {
+        //desactivarErroresLineas();
         if (HandScript.MyInstance.MyMoveable != null)
         {
             items.Add((Item)HandScript.MyInstance.MyMoveable); //añade lo que tiene el handscript en la lista de items
         }
         else if (act.MiUsable != null)
         {
-            //Debug.Log("Holo");
+            
             items.Add((Item)act.MiUsable);
             act.MiUsable = null;
         }
 
+        //instanciar bloque de codigo
+        detalle = Instantiate(detalleLinea, numLineaGO.transform).GetComponent<DetalleLinea>();
+        
+        //Agranda el content para que lo detecte el scrollbar cuando llegue al final de la pantalla
+        RectTransform rect = ContentEditor.GetComponent<RectTransform>();
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 50);
+        scrollBar.GetComponent<Scrollbar>().value = 0; // con el value en cerro el scrollbar va hasta el ultimo codigo añadido
+
+        //cada linea tiene los actos que se le ingresan.
         linea.actosLinea.Add(act);
         int IndexActualLinea = linea.MyIndex; //numero de linea de codigo
         linea = Instantiate(lineaPrefab, transform).GetComponent<LineaScript>(); //se agrega linea como gameobject
         linea.MyIndex = IndexActualLinea + 1; // num de linea de codigo
+
+        detalle.myIndex = linea.MyIndex;
+        //poner numero de linea de codigo en el canvas
+        detalle.transform.GetChild(2).GetComponent<Text>().text = "" +linea.MyIndex;
+
         int IndexActualAct = act.MyIndex;
         act = linea.transform.GetChild(0).GetComponent<ActScript>(); //Obtener hijo de linea que es un act
         ActScript.MyAct = act;
@@ -117,8 +218,8 @@ public class EditorScript : MonoBehaviour
 
     public void AgregarAct() //añade act horizontal es para el if por ejemplo
     {    // act es el act actual, acts es la lista de actos
-       // Debug.Log(acts);
-
+         // Debug.Log(acts);
+       // desactivarErroresLineas();
         if (HandScript.MyInstance.MyMoveable != null)
         {
             items.Add((Item)HandScript.MyInstance.MyMoveable);

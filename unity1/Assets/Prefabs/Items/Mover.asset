@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7f2a49c1fcfd5449eaa1a2baeee9db, type: 3}
   m_Name: Mover
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 9bad548f233fe5340b7b29f991d7d8c8, type: 3}
+  icon: {fileID: 21300000, guid: 25ac9dc6f3236694c83b6736d3fbdf46, type: 3}
   stackSize: 0
   titel: ComandosMov
   quality: 0

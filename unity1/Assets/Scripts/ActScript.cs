@@ -264,7 +264,7 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
             {
                 addActMov(actUsable);
             }
-            EditorScript.MyInstance.contMov++;//cuenta la cantidad de comandos mov que instancia el usuario
+            //EditorScript.MyInstance.contMov++;//cuenta la cantidad de comandos mov que instancia el usuario
         }
         else if (actUsable is Si)
         {
