@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +33,9 @@ public class EditorScript : MonoBehaviour
     [SerializeField] public GameObject inputWinGO;
     public GameObject detalleLinea;
     private bool activarError;
-    public TMP_InputField InputFieldStack;
+    //public TMP_InputField InputFieldStack;
+    public Color colorPanelIn;
+    public Color colorPanelOut;
 
     [SerializeField]
     private GameObject lineaPrefab;
@@ -58,7 +61,9 @@ public class EditorScript : MonoBehaviour
     public bool siCompleto; // para validar si los codigos si tienen fin
     public bool sinoCompleto; // para validar si los codigos si tienen fin
 
+
     public List<LineaScript> lineas = new List<LineaScript>();
+    public List<DetalleLinea> detalles = new List<DetalleLinea>();
 
     public List<ActScript> acts = new List<ActScript>();
     public List<TMP_InputField> inputs = new List<TMP_InputField>();
@@ -83,12 +88,16 @@ public class EditorScript : MonoBehaviour
 
         detalle = FindObjectOfType<DetalleLinea>();
         detalle.myIndex = 1;
+        detalles.Add(detalle);
         var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
         color.a = 0f;
         detalle.transform.GetChild(1).GetComponent<Image>().color = color;
         numLineaGO = GameObject.Find("NumLinea");
         activarError = false;
-        
+        cambiarColorInEx = false;
+        cambiarColorOutEx = false;
+        posCambiarColor = -1;
+
     }
 
 
@@ -108,6 +117,7 @@ public class EditorScript : MonoBehaviour
 
     public void subirAct(int posicion)
     {
+        EditorScript.MyInstance.desactivarErroresLineas();
         if (posicion > 1 && posicion != lineas.Count) //la linea 1 no puede subir mas
         {
             lineas[posicion - 1].transform.SetSiblingIndex(posicion - 2);
@@ -119,6 +129,7 @@ public class EditorScript : MonoBehaviour
     }
     public void bajarAct(int posicion)
     {
+        desactivarErroresLineas();
         if (posicion != lineas.Count - 1 && posicion != lineas.Count) //la ultima y penultima no pueden bajar
         {
             lineas[posicion - 1].transform.SetSiblingIndex(posicion); //se le pone el index del hermano de delante
@@ -129,11 +140,19 @@ public class EditorScript : MonoBehaviour
 
         }
     }
+    public void eliminarAct(int posicion)
+    {
+        
+        Destroy(lineas[posicion - 1].gameObject);
+        lineas.Remove(lineas[posicion - 1]);
+    }
 
     private int numLine;
+    private List<int> lineasConError = new List<int>();
     public void activarErrorLinea(int numLinea)
     {
         activarError = true;
+        lineasConError.Add(numLinea);
         numLine = numLinea;
     }
 
@@ -141,6 +160,22 @@ public class EditorScript : MonoBehaviour
     {
         activarError = true;
         numLine = -1;
+        //Thread.Sleep(50);
+    }
+    private bool cambiarColorInEx;
+    private bool cambiarColorOutEx;
+    private int posCambiarColor;
+    public void cambiarColorEjecucion(int i)
+    {
+        if(i == posCambiarColor)
+        {
+            cambiarColorOutEx = true;
+        }
+        else
+        {
+            cambiarColorInEx = true;
+            posCambiarColor = i;
+        }
     }
 
     void Update()
@@ -149,13 +184,16 @@ public class EditorScript : MonoBehaviour
         {
             if(numLine == -1)
             {
-                for (int i = 0; i < lineas.Count; i++)
+                foreach (int num in lineasConError)
                 {
-                    detalle = numLineaGO.transform.GetChild(numLine).GetComponent<DetalleLinea>();
+                    detalle = numLineaGO.transform.GetChild(num).GetComponent<DetalleLinea>();
                     var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
                     color.a = 0f;
                     detalle.transform.GetChild(1).GetComponent<Image>().color = color;
+                    
+
                 }
+                lineasConError.Clear();
                 activarError = false;
             }
             else
@@ -164,9 +202,21 @@ public class EditorScript : MonoBehaviour
                 var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
                 color.a = 1f;
                 detalle.transform.GetChild(1).GetComponent<Image>().color = color;
+                //detalle.transform.GetChild(0).GetComponent<Image>().color = new Color(1, 0, 0, 1);
                 activarError = false;
             }
             
+        }
+        if (cambiarColorInEx)
+        {
+            detalle = numLineaGO.transform.GetChild(posCambiarColor).GetComponent<DetalleLinea>();
+            detalle.transform.GetChild(0).GetComponent<Image>().color = colorPanelIn;
+            cambiarColorInEx = false;
+        }else if (cambiarColorOutEx)
+        {
+            detalle = numLineaGO.transform.GetChild(posCambiarColor).GetComponent<DetalleLinea>();
+            detalle.transform.GetChild(0).GetComponent<Image>().color = colorPanelOut;
+            cambiarColorOutEx = false;
         }
 
     }
@@ -187,7 +237,10 @@ public class EditorScript : MonoBehaviour
 
         //instanciar bloque de codigo
         detalle = Instantiate(detalleLinea, numLineaGO.transform).GetComponent<DetalleLinea>();
-        
+        var color = detalle.transform.GetChild(1).GetComponent<Image>().color;
+        color.a = 0f; //el error inicia transparente
+        detalle.transform.GetChild(1).GetComponent<Image>().color = color;
+
         //Agranda el content para que lo detecte el scrollbar cuando llegue al final de la pantalla
         RectTransform rect = ContentEditor.GetComponent<RectTransform>();
         rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 50);
@@ -202,6 +255,7 @@ public class EditorScript : MonoBehaviour
         detalle.myIndex = linea.MyIndex;
         //poner numero de linea de codigo en el canvas
         detalle.transform.GetChild(2).GetComponent<Text>().text = "" +linea.MyIndex;
+        detalles.Add(detalle);
 
         int IndexActualAct = act.MyIndex;
         act = linea.transform.GetChild(0).GetComponent<ActScript>(); //Obtener hijo de linea que es un act

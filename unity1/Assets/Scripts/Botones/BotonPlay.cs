@@ -125,8 +125,8 @@ public class BotonPlay : MonoBehaviour
                                 Debug.Log("Fin Si mal posicionado en la linea " + (i+1));
                                 EditorScript.MyInstance.activarErrorLinea(i);
                                 error = true;
+                                Thread.Sleep(100);
                             }
-
                             // if ((Si)acto.item.)
                         }
                        /* else if(acto.item is CmdMover){
@@ -136,30 +136,34 @@ public class BotonPlay : MonoBehaviour
                     }
                 }
 
-                if (contSi == 1)
+                if (contSi == 1) // solo se puso el si
                 {
                     Debug.Log("Falta condición en la línea " + (posicionSi + 1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
-                    //EditorScript.MyInstance.numLinea.transform.GetChild(posicion).GetComponent<>;
+                    Thread.Sleep(100);
+                //EditorScript.MyInstance.numLinea.transform.GetChild(posicion).GetComponent<>;
                 }
                 if(contSi == 2 && faltaTile)
                 {
                     Debug.Log("Falta código de terreno en la línea " + (posicionSi + 1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
+                    Thread.Sleep(100);
                 }
                 if (siFull == false)
                 {
                     Debug.Log("Falta cerrar el Si de la línea "+(posicionSi +1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
+                    Thread.Sleep(100);
                 }
                 if(sinoFull == false)
                 {
                     Debug.Log("Falta cerrar el Sino de la línea " + (posicionSi + 1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
+                    Thread.Sleep(100);
                 }
                 
               
@@ -168,9 +172,16 @@ public class BotonPlay : MonoBehaviour
             if (!error)
             {
                 bool condicionSi = true;
-
+                NumLinea.MyInstance.NumLineaClick = -1;
                 for (int i = 0; i < EditorScript.MyInstance.lineas.Count; i++)
                 {
+                    if (EditorScript.MyInstance.detalles[i].estaClickeado())
+                    {
+                        EditorScript.MyInstance.detalles[i].desclickPanel();
+                    }
+                    if(i != EditorScript.MyInstance.lineas.Count-1)
+                        EditorScript.MyInstance.cambiarColorEjecucion(i);
+
                     foreach (ActScript acto in EditorScript.MyInstance.lineas[i].actosLinea)
                     {
 
@@ -244,6 +255,7 @@ public class BotonPlay : MonoBehaviour
                             {
                                 condicionSi = true; //para que siga avanzando las instrucciones despues del finsi
                             }
+                            Thread.Sleep(250);
                         }
                         else if (item is CmdMover && condicionSi)
                         {
@@ -257,7 +269,6 @@ public class BotonPlay : MonoBehaviour
                                     //Debug.Log("hola cmdmover " + item.MyTitle);
                                     _t1Paused = false;
                                     player.moverAdelante();
-                                    //Debug.Log("oli " + item.MyTitle);
                                     Thread.Sleep(1000);
                                     /*while (_t1Paused)
                                     {
@@ -268,7 +279,6 @@ public class BotonPlay : MonoBehaviour
                                 {
                                     //_t1Paused = true;
                                     player.GirarDerecha();
-                                    //Debug.Log("oli " + item.MyTitle);
                                     Thread.Sleep(500);
 
                                 }
@@ -285,12 +295,7 @@ public class BotonPlay : MonoBehaviour
                                 {
                                     _t1Paused = false;
                                     player.moverAtras();
-                                    //Debug.Log("oli " + item.MyTitle);
                                     Thread.Sleep(1000);
-                                    /*  while (_t1Paused)
-                                      {
-                                      }*/
-
 
                                 }
                             }
@@ -299,8 +304,14 @@ public class BotonPlay : MonoBehaviour
 
                         }
 
+                    } //end foreach
+                    if (i != EditorScript.MyInstance.lineas.Count-1)
+                    {
+                        EditorScript.MyInstance.cambiarColorEjecucion(i);
+                        Thread.Sleep(50);
                     }
-                } // end foreach
+                } // end for
+                
                 Debug.Log("thread ejecutado correctamente");
                 threadTerminado = true;
             }
@@ -332,7 +343,7 @@ public class BotonPlay : MonoBehaviour
 
     public void Play()
     {
-
+        EditorScript.MyInstance.desactivarErroresLineas();
         items = EditorScript.MyInstance.MyItems;
         acts = EditorScript.MyInstance.acts;
         //Debug

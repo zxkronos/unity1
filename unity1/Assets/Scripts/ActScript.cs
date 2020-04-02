@@ -215,34 +215,40 @@ public class ActScript : MonoBehaviour, IPointerClickHandler, IClickable, IPoint
     
     public void AddActClickDerecho(IUseable actUsable)
     {
-        
+         EditorScript.MyInstance.desactivarErroresLineas();
 
         if (actUsable is CmdMover)
         {
-
             
+            /*  for (int i = 0; i < EditorScript.MyInstance.lineas.Count; i++)
+              {
+                  foreach (ActScript acto in EditorScript.MyInstance.lineas[i].actosLinea)
+                  {
+                      if (acto.item is Si)
+                      {*/
 
             CmdMover movAnterior = null;
              
-            if (EditorScript.MyInstance.MyItems.Count > 0)
+            if (EditorScript.MyInstance.lineas.Count > 1)
             {
-                if (EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count - 1] is CmdMover)
+                if (EditorScript.MyInstance.lineas[EditorScript.MyInstance.lineas.Count - 2].actosLinea[0].item is CmdMover)
                 {
-                    movAnterior = (CmdMover)EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count - 1];
+                    movAnterior = (CmdMover)EditorScript.MyInstance.lineas[EditorScript.MyInstance.lineas.Count - 2].actosLinea[0].item;
                 }
                 else
                 {
                     movAnterior = null;
                 }
             }
+            
             mov = (CmdMover)actUsable; // cuando se genera el mov actual mov va recoger el ultimo item de la lista
                                        //el cual es el que se agrego anteriormente porque este serta el ultimo
                                        // Debug.Log("mov " + mov);
                                        //Debug.Log("movAnt " + movAnterior);
             if (movAnterior != null)
             {
-
-                if (movAnterior.moveType == mov.moveType && EditorScript.MyInstance.MyItems[EditorScript.MyInstance.MyItems.Count-1] is CmdMover)
+                
+                if (movAnterior.moveType == mov.moveType && EditorScript.MyInstance.lineas[EditorScript.MyInstance.lineas.Count - 2].actosLinea[0].item is CmdMover)
                 {
                     //Debug.Log("mi index "+MyIndex);
                     int x = 0;
