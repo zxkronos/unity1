@@ -36,6 +36,7 @@ public class BotonPlay : MonoBehaviour
 
     private Player player;
     private bool error;
+    private NumLinea numlinea;
     public static BotonPlay PlayInstance
     {
         get
@@ -60,6 +61,8 @@ public class BotonPlay : MonoBehaviour
         posicionIncialVista = Vista.transform.position;
         threadTerminado = true;
         contSi = 0;
+        numlinea = NumLinea.MyInstance;
+        Dialog.MyInstance.mensaje = "";
        // botonplay = Transform.GetComponent<Button>(); 
     }
     void Start()
@@ -73,9 +76,10 @@ public class BotonPlay : MonoBehaviour
         
         try
         {
+            //Dialog.MyInstance.enviarMensaje("Probando consola :)\nbla bla");
             //EditorScript.MyInstance.siCompleto == false || EditorScript.MyInstance.sinoCompleto == false
-            
-                bool siFull = true;
+
+            bool siFull = true;
                 bool sinoFull = true;
                 int posicionSi = 0;
                 int contSi = 0; //Si la cuenta llega hasta 3 está completo.
@@ -123,6 +127,7 @@ public class BotonPlay : MonoBehaviour
                             }else if (siaux.siType.ToString() == "FinSi" && contSi < 3)
                             {
                                 Debug.Log("Fin Si mal posicionado en la linea " + (i+1));
+                                Dialog.MyInstance.enviarMensaje("Fin Si mal posicionado en la linea " + (i + 1) + "\n");
                                 EditorScript.MyInstance.activarErrorLinea(i);
                                 error = true;
                                 Thread.Sleep(100);
@@ -138,6 +143,7 @@ public class BotonPlay : MonoBehaviour
 
                 if (contSi == 1) // solo se puso el si
                 {
+                    Dialog.MyInstance.enviarMensaje("Falta condición en la línea " + (posicionSi + 1) + "\n");
                     Debug.Log("Falta condición en la línea " + (posicionSi + 1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
@@ -146,6 +152,7 @@ public class BotonPlay : MonoBehaviour
                 }
                 if(contSi == 2 && faltaTile)
                 {
+                    Dialog.MyInstance.enviarMensaje("Falta código de terreno en la línea " + (posicionSi + 1) + "\n");
                     Debug.Log("Falta código de terreno en la línea " + (posicionSi + 1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
@@ -153,6 +160,7 @@ public class BotonPlay : MonoBehaviour
                 }
                 if (siFull == false)
                 {
+                    Dialog.MyInstance.enviarMensaje("Falta cerrar el Si de la línea " + (posicionSi + 1) + "\n");
                     Debug.Log("Falta cerrar el Si de la línea "+(posicionSi +1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
@@ -160,6 +168,7 @@ public class BotonPlay : MonoBehaviour
                 }
                 if(sinoFull == false)
                 {
+                    Dialog.MyInstance.enviarMensaje("Falta cerrar el Sino de la línea " + (posicionSi + 1) + "\n");
                     Debug.Log("Falta cerrar el Sino de la línea " + (posicionSi + 1));
                     EditorScript.MyInstance.activarErrorLinea(posicionSi);
                     error = true;
@@ -172,7 +181,7 @@ public class BotonPlay : MonoBehaviour
             if (!error)
             {
                 bool condicionSi = true;
-                NumLinea.MyInstance.NumLineaClick = -1;
+                numlinea.NumLineaClick = -1;
                 for (int i = 0; i < EditorScript.MyInstance.lineas.Count; i++)
                 {
                     if (EditorScript.MyInstance.detalles[i].estaClickeado())
@@ -311,7 +320,8 @@ public class BotonPlay : MonoBehaviour
                         Thread.Sleep(50);
                     }
                 } // end for
-                
+
+                Dialog.MyInstance.enviarMensaje("Código ejecutado correctamente \n");
                 Debug.Log("thread ejecutado correctamente");
                 threadTerminado = true;
             }
@@ -323,6 +333,7 @@ public class BotonPlay : MonoBehaviour
             }
         catch (ThreadAbortException ex)
         {
+            Dialog.MyInstance.enviarMensaje("Ejecución abortada \n");
             Debug.Log("Thread es abortado " + ex.ExceptionState);
         }
     }
@@ -364,7 +375,7 @@ public class BotonPlay : MonoBehaviour
         }
         else
         {
-            
+            Dialog.MyInstance.enviarMensaje("Aún no termina de ejecutar el código! \n");
             Debug.Log("Aun no termina el thread anterior");
         }
         
