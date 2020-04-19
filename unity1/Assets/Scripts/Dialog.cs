@@ -49,6 +49,9 @@ public class Dialog : MonoBehaviour
         this.mensaje = mensaje;
         hayMensaje = true;
     }
+    public void borrarTexto(){
+        textDisplay.text = "";
+    }
 
     void Update()
     {

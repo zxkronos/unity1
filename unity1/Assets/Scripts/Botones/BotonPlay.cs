@@ -366,7 +366,7 @@ public class BotonPlay : MonoBehaviour
         if (threadTerminado == true)
         {
             posicionInicial();
-
+            Dialog.MyInstance.borrarTexto();
             ListaDeHilos.Add(_t1);
             ListaDeHilos[numHilos] = new Thread(Ejecutar);
             threadTerminado = false;
